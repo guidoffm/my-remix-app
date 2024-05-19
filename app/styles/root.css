@@ -1,0 +1,41 @@
+.header {
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.nav {
+  width: 80%;
+  margin: 0 auto;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.nav.open {
+  transform: translateX(0);
+}
+
+.burger {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  flex-direction: row;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+}
+
+@media (max-width: 600px) {
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}
