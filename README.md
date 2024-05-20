@@ -7,6 +7,9 @@
 Run the Vite dev server:
 
 ```shellscript
+
+dapr run --app-id elysia1 -- npm run dev
+
 npm run dev
 ```
 

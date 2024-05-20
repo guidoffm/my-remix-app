@@ -1,9 +1,19 @@
+import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, LoaderFunction, json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, Outlet, useLoaderData } from "@remix-run/react";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
     // console.log('request:', request);
     // const data = await fetchData(); // Ersetzen Sie dies durch Ihre eigene Logik zum Abrufen von Daten
+    const daprClient = new DaprClient();
+    const data = await daprClient.state.query('userstore2', {
+        filter: {},
+        page: {
+            limit: 100
+        },
+        sort: []
+    });
+    console.log('data:', data);
     return { message: 'Hello World' };
 };
 
@@ -13,6 +23,7 @@ export default function FooBar() {
 
     return (
         <div>
+            <Outlet />
             <h1>{data.message}</h1>
 
             <Form method="post" action="/foo/bar" style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px', margin: '0 auto', fontFamily: 'sans-serif' }}>
@@ -42,9 +53,7 @@ export default function FooBar() {
     );
 }
 
-export async function action({
-    request,
-}: ActionFunctionArgs) {
+export async function action({ request, }: ActionFunctionArgs) {
     const formData = await request.formData();
     // console.log('formData:', formData);
     const email = formData.get("email");
