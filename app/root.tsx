@@ -1,5 +1,4 @@
 import {
-  Link,
   Links,
   Meta,
   Outlet,
@@ -8,10 +7,10 @@ import {
 } from "@remix-run/react";
 
 import "./styles/root.css";
-import { useState } from "react";
+import Navbar from "./components/navbar";
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(true);
+
 
   return (
     <html lang="en">
@@ -23,24 +22,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div>
-          <header className="header">
-            <button className="burger" onClick={() => setIsOpen(!isOpen)}>
-              ☰
-            </button>
-            <nav className={`nav ${isOpen ? 'open' : ''}`}>
-              <ul className="nav-list">
-                <li>
-                  <Link to="/" className="nav-link">Home</Link>
-                </li>
-                <li>
-                  <Link to="/foo" className="nav-link">Foo</Link>
-                </li>
-                <li>
-                  <Link to="/about" className="nav-link">About</Link>
-                </li>
-              </ul>
-            </nav>
-          </header>
+          <Navbar />
         </div>
         {children}
         <ScrollRestoration />

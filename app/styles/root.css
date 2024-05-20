@@ -1,23 +1,24 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 10px;
+}
+
 .header {
   background-color: #f8f9fa;
   padding: 10px 0;
   margin-bottom: 20px;
 }
 
+.burger {
+  display: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
 .nav {
   width: 80%;
   margin: 0 auto;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(-100%);
-}
-
-.nav.open {
-  transform: translateX(0);
-}
-
-.burger {
-  font-size: 30px;
-  cursor: pointer;
 }
 
 .nav-list {
@@ -33,9 +34,22 @@
   color: #333;
 }
 
+.active {
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
+  .burger {
+    display: block;
+  }
+
   .nav-list {
+    display: none;
+  }
+
+  .nav.open .nav-list {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 }
