@@ -1,14 +1,14 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { ImageState } from "~/types/image-state";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export let headers = {
   'Cache-Control': 'no-store'
 }
 
 export default function Upload() {
-  
+
   return (
     <div>
       <h1>Upload</h1>
@@ -20,9 +20,7 @@ export default function Upload() {
   );
 }
 
-export const action = async ({
-  request,
-}: ActionFunctionArgs) => {
+export const action = async ({ request, }: ActionFunctionArgs) => {
   const uploadHandler = unstable_createMemoryUploadHandler({
     maxPartSize: 500_000,
   });
