@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN chown -R nextjs:nodejs /app
 USER nextjs
-RUN npm install
+RUN npm ci
 COPY . .
 USER root
 RUN chown -R nextjs:nodejs /app
