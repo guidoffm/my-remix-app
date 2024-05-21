@@ -22,7 +22,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
 export default function MyPage() {
     const imageKeys = useLoaderData<typeof loader>();
     return (
-        <div>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {(imageKeys as string[]).map((x) => (
                 <MyImage imageid={x}></MyImage>
             ))}
