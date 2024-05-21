@@ -7,7 +7,15 @@ export async function loader({
 }: LoaderFunctionArgs) {
 
     const daprClient = new DaprClient();
-    const stateGetResult = await daprClient.state.get('files', 'user') as ImageState;
+    
+    const { imageid } = params;
+
+    if (!imageid) {
+        return new Response("No image found", {
+            status: 404,
+        });
+    }
+    const stateGetResult = await daprClient.state.get('files', imageid) as ImageState;
 
     if (!stateGetResult) {
         return new Response("No image found", {

@@ -31,6 +31,9 @@ export default function Navbar() {
                         <Link to="/foo" className={`nav-link ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
                     </li>
                     <li>
+                        <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'active' : ''}`}>My Page</Link>
+                    </li>
+                    <li>
                         <Link to="/upload" className={`nav-link ${isActive('/upload') ? 'active' : ''}`}>Upload</Link>
                     </li>
                     <li>

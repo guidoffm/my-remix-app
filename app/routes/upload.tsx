@@ -1,6 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { ImageState } from "~/types/image-state";
+import {v4 as uuidv4} from 'uuid';
 
 export let headers = {
   'Cache-Control': 'no-store'
@@ -36,7 +37,7 @@ export const action = async ({
 
   const daprClient = new DaprClient();
   const obj = {
-    key: 'user',
+    key: uuidv4(),
     value: {
       buffer: buffer.toJSON(),
       fileName: blob.name,
