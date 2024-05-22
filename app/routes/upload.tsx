@@ -2,6 +2,8 @@ import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
+import { bytesToBase64 } from "~/base64";
+import { k } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 export let headers = {
   'Cache-Control': 'no-store'
@@ -22,7 +24,7 @@ export default function Upload() {
 
 export const action = async ({ request, }: ActionFunctionArgs) => {
   const uploadHandler = unstable_createMemoryUploadHandler({
-    maxPartSize: 500_000,
+    maxPartSize: 5_000_000,
   });
   const formData = await unstable_parseMultipartFormData(
     request,
@@ -37,14 +39,23 @@ export const action = async ({ request, }: ActionFunctionArgs) => {
   const obj = {
     key: uuidv4(),
     value: {
-      buffer: buffer.toJSON(),
+      // buffer: buffer.toJSON(),
       fileName: blob.name,
       type: blob.type,
       uploader: 'user',
       uploadTime: new Date().toISOString()
     } as ImageState
   };
-  // console.log(obj);
+  console.log('key:', obj.key);
+  const base64 = buffer.toString('base64');
+  const createResult = await daprClient.binding.send('minio', 'create', base64, {
+    "Content-Type": obj.value.type,
+    key: obj.key
+  });
+  console.log('createResult:', createResult);
+  const getResult = await daprClient.binding.send('minio', 'get', undefined, { key: obj.key });
+  const decodedBuffer = Buffer.from(getResult as unknown as string, 'base64');
+  console.log('decodedBuffer:', decodedBuffer.length);
   const data = await daprClient.state.save('files', [obj]);
   console.log('data:', data);
 
