@@ -8,7 +8,9 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     const data = await daprClient.state.query('files', {
 
         filter: {
-            "EQ": { "uploader": "user" }
+            EQ: {
+                uploader: 'user'
+            }
         },
         page: {
             limit: 100
