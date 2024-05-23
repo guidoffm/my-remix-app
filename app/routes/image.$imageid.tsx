@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { i } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
+import { bindingFilesStoreName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 
 export async function loader({
@@ -24,8 +24,7 @@ export async function loader({
         });
     }
 
-    // const buffer2 = Buffer.from(stateGetResult.buffer.data);
-    const getResult = await daprClient.binding.send('minio', 'get', undefined, { key: imageid });
+    const getResult = await daprClient.binding.send(bindingFilesStoreName, 'get', undefined, { key: imageid });
     const decodedBuffer = Buffer.from(getResult as unknown as string, 'base64');
     return new Response(decodedBuffer, {
         status: 200,
