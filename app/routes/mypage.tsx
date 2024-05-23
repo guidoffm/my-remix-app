@@ -27,7 +27,7 @@ export default function MyPage() {
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {(imageKeys as string[]).map((x) => (
-                <MyImage imageid={x}></MyImage>
+                <MyImage key={x} imageid={x}></MyImage>
             ))}
         </div>
     );
