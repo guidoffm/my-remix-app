@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { bindingFilesStoreName } from "~/types/constants";
+import { bindingFilesStoreName, stateFilesStoreName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 
 export async function loader({
@@ -16,7 +16,7 @@ export async function loader({
             status: 404,
         });
     }
-    const stateGetResult = await daprClient.state.get('files', imageid) as ImageState;
+    const stateGetResult = await daprClient.state.get(stateFilesStoreName, imageid) as ImageState;
 
     if (!stateGetResult) {
         return new Response("No image found", {
