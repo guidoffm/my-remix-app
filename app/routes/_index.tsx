@@ -1,4 +1,6 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { getSession } from "~/sessions";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,11 +9,20 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+// export let loader: LoaderFunction = async ({ request, context, params }) => {
+//   const session = await getSession(
+//     request.headers.get("Cookie")
+//   );
+//   console.log('userId', session.get("userId"));
+//   return session.get("userId") || null;
+// };
+
 export default function Index() {
+  // const userId = useLoaderData<typeof loader>();
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
+      {/* <h1>Hello {userId}</h1> */}
+      {/* <ul>
         <li>
           <a
             target="_blank"
@@ -35,7 +46,7 @@ export default function Index() {
             Remix Docs
           </a>
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 }

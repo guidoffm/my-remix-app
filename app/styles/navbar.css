@@ -1,0 +1,57 @@
+.nav {
+    width: 80%;
+    margin: 0 auto;
+
+}
+
+.nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    flex-direction: row;
+}
+
+.login-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+
+}
+.nav-link {
+    text-decoration: none;
+    color: #333;
+}
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.burger {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.active {
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .burger {
+        display: block;
+    }
+
+    .nav-list {
+        display: none;
+    }
+
+    .nav.open .nav-list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
