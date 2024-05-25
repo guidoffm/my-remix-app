@@ -6,6 +6,7 @@ import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
 import { useLoaderData } from "@remix-run/react";
 
 import { getSession, commitSession } from "../sessions";
+import { validateCredentials } from "../services/validate-credentials";
 
 export async function loader({ request, }: LoaderFunctionArgs) {
     const session = await getSession(
@@ -30,17 +31,6 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
 
 
-function validateCredentials(username: FormDataEntryValue | null, password: FormDataEntryValue | null) {
-    // Implement your logic to validate the credentials here
-    // For example, you can check if the username and password match a user in your database
-    // Return the userId if the credentials are valid, otherwise return null
-    if (username === "admin" && password === "6sg,78sufgr") {
-        return Promise.resolve("123456");
-    } else {
-        return Promise.resolve(null);
-    }
-}
-
 export async function action({ request, }: ActionFunctionArgs) {
     const session = await getSession(
         request.headers.get("Cookie")
@@ -57,7 +47,7 @@ export async function action({ request, }: ActionFunctionArgs) {
     // return json({ userId });
 
 
-    if (userId == null) {
+    if (!userId) {
         session.flash("error", "Invalid username/password");
 
         // Redirect back to the login page with errors.
