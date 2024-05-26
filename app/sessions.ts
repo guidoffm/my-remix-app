@@ -22,12 +22,11 @@ const { getSession, commitSession, destroySession } =
         // // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
         // //
         // // expires: new Date(Date.now() + 60_000),
-        // httpOnly: true,
+        httpOnly: true,
         maxAge: 60 * 60 * 24 * 7, // 1 week
-        // path: "/",
-        // sameSite: "lax",
-        // secrets: ["s3cret1"],
-        // secure: true,
+        path: "/",
+        sameSite: "strict",
+        secure: true,
       },
     }
   );
