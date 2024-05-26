@@ -1,7 +1,7 @@
-export default function MyComp({ givenName, surName }: { givenName: string, surName: string }) {
+export default function MyComp({ displayName }: { displayName: string }) {
     return (
         <div>
-            <h1>Hello {givenName} {surName}</h1>
+            <h1>Hello {displayName}!</h1>
         </div>
     );
 }

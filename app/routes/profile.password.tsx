@@ -12,7 +12,7 @@ export default function ProfilePassword() {
 
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [isSubmitDisabled, setSubmitDisabled] = useState(true);
 
     // const handleSubmit = (event: Event) => {
     //     event.preventDefault();
@@ -26,23 +26,32 @@ export default function ProfilePassword() {
     useEffect(() => {
         const res = password === '' || password2 === '' || password.length < 8 || password !== password2;
         // console.log('res:', res);
-        setIsSubmitDisabled(res);
+        setSubmitDisabled(res);
     }, [password, password2]);
 
     return (
         <div>
             <h1>Password</h1>
-            <Form method="post" style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+            <Form method="post"
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    maxWidth: '300px',
+                    margin: '0 auto',
+                    fontFamily: 'sans-serif',
+                    padding: '20px',
+                }}>
                 {/* <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Settings for {user.displayName}</h1> */}
 
                 <label style={{ marginBottom: '10px' }}>
                     New Password
                     <input
-                        id="password"
+                        autoFocus
+                        // id="password"
                         name="password"
                         // defaultValue={user.displayName}
                         type="password"
-                        value={password}
+                        // value={password}
                         onChange={e => setPassword(e.target.value)}
                         // minLength={8}
                         style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
@@ -52,10 +61,10 @@ export default function ProfilePassword() {
                     Repeat Password
                     <input
                         name="password2"
-                        id="password2"
+                        // id="password2"
                         // defaultValue={user.displayName}
                         type="password"
-                        value={password2}
+                        // value={password2}
                         onChange={e => setPassword2(e.target.value)}
                         // minLength={8}
 

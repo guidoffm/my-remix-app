@@ -17,7 +17,7 @@ export default function FooIndex() {
   return (
     <div>
       <h1>Foo</h1>
-      <MyComp givenName={displayName} surName={"Doe"} />
+      <MyComp displayName={displayName} />
     </div>
   );
 }

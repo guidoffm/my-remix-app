@@ -1,5 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import MyComp from "~/components/my-comp";
 import { getSession } from "~/services/sessions";
 
 export const meta: MetaFunction = () => {
@@ -9,18 +10,30 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-// export let loader: LoaderFunction = async ({ request, context, params }) => {
-//   const session = await getSession(
-//     request.headers.get("Cookie")
-//   );
-//   console.log('userId', session.get("userId"));
-//   return session.get("userId") || null;
-// };
+export let loader: LoaderFunction = async ({ request, context, params }) => {
+  const session = await getSession(
+    request.headers.get("Cookie")
+  );
+  // console.log('userId', session.get("userId"));
+  return session.get("displayName") || null;
+};
 
 export default function Index() {
-  // const userId = useLoaderData<typeof loader>();
+  const displayName = useLoaderData<typeof loader>();
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+      <h1>Guido's Website</h1>
+      {displayName &&
+        <div>
+          <MyComp displayName={displayName} />
+        </div>
+      }
+      {!displayName &&
+        <div>
+          <p>Welcome to my website. Please <Link to="/login">log in</Link> to see more.</p>
+          <p>If you do not have an account yet, please <Link to="/register">register</Link>!</p>
+        </div>
+      }
       {/* <h1>Hello {userId}</h1> */}
       {/* <ul>
         <li>
