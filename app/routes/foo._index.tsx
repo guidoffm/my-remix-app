@@ -1,7 +1,7 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import MyComp from "~/components/my-comp";
-import { getSession } from "~/sessions";
+import { getSession } from "~/services/sessions";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
     const session = await getSession(

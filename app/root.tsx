@@ -10,7 +10,7 @@ import {
 import "./styles/root.css";
 import Navbar from "./components/navbar";
 import { LoaderFunction } from "@remix-run/node";
-import { getSession } from "./sessions";
+import { getSession } from "./services/sessions";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
   const session = await getSession(

@@ -1,16 +1,16 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import my from "~/services/my.server";
-import { getSession } from "~/sessions";
+import { getSession } from "~/services/sessions";
 
 export async function loader({
     request, params,
 }: LoaderFunctionArgs) {
 
     const cookies = request.headers.get('Cookie');
-    console.log('Cookies:', cookies);
+    // console.log('Cookies:', cookies);
     const session = await getSession(cookies);
     const userId = session.get('userId');
-    console.log('userId:', userId);
+    // console.log('userId:', userId);
     if (!userId) {
         return new Response(JSON.stringify({error: 'Unauthorized'}), {
             status: 401,
@@ -20,7 +20,7 @@ export async function loader({
         } as ResponseInit);
     }
 
-    const myResult = await my();
+    const myResult = await my(userId);
     return new Response(JSON.stringify({foo: myResult}), {
         status: 200,
         headers: {

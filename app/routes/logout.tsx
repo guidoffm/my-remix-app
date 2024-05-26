@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
-import { getSession, destroySession } from "../sessions";
+import { getSession, destroySession } from "../services/sessions";
 
 export const action = async ({
     request,

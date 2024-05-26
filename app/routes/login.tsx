@@ -5,7 +5,7 @@ import type {
 import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
 import { useLoaderData } from "@remix-run/react";
 
-import { getSession, commitSession } from "../sessions";
+import { getSession, commitSession } from "../services/sessions";
 import { validateCredentials } from "../services/validate-credentials";
 
 export async function loader({ request, }: LoaderFunctionArgs) {
