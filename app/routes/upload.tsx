@@ -14,7 +14,7 @@ export default function Upload() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#f8f8f8' }}>
       <h1 style={{ marginBottom: '50px' }}>Upload</h1>
-      <form action="/upload" method="post" encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px', borderRadius: '10px', backgroundColor: '#fff', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
+      <form method="post" encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px', borderRadius: '10px', backgroundColor: '#fff', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
         <input type="file" name="avatar" style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ddd' }} />
         <button type="submit" style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#007BFF', color: '#fff', cursor: 'pointer' }}>Upload</button>
       </form>
@@ -55,16 +55,13 @@ export const action = async ({ request, }: ActionFunctionArgs) => {
   };
   // console.log('key:', obj.key);
   const base64 = buffer.toString('base64');
-  const createResult = await daprClient.binding.send(bindingFilesStoreName, 'create', base64, {
+  const sendBindingResult = await daprClient.binding.send(bindingFilesStoreName, 'create', base64, {
     "Content-Type": obj.value.type,
     key: obj.key
   });
-  // console.log('createResult:', createResult);
-  // const getResult = await daprClient.binding.send('minio', 'get', undefined, { key: obj.key });
-  // const decodedBuffer = Buffer.from(getResult as unknown as string, 'base64');
-  // console.log('decodedBuffer:', decodedBuffer.length);
-  const saveResult = await daprClient.state.save('files', [obj]);
-  // console.log('saveResult:', saveResult);
+  console.debug('sendBindingResult:', sendBindingResult);
+  const saveStateResult = await daprClient.state.save('files', [obj]);
+  console.log('saveStateResult:', saveStateResult);
 
   return json({ ok: true });
 };
