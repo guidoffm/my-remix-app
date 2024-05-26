@@ -39,7 +39,7 @@ export async function action({ request, }: ActionFunctionArgs) {
     const username = form.get("username");
     const password = form.get("password");
 
-    const userId = await validateCredentials(
+    const user = await validateCredentials(
         username,
         password
     );
@@ -47,7 +47,7 @@ export async function action({ request, }: ActionFunctionArgs) {
     // return json({ userId });
 
 
-    if (!userId) {
+    if (!user) {
         session.flash("error", "Invalid username/password");
 
         // Redirect back to the login page with errors.
@@ -57,8 +57,9 @@ export async function action({ request, }: ActionFunctionArgs) {
             },
         });
     }
-
-    session.set("userId", userId);
+    console.log('user', user);
+    session.set("userId", user.key);
+    session.set("displayName", user.data.displayName);
 
     // Login succeeded, send them to the home page.
     return redirect("/", {

@@ -9,7 +9,7 @@ import {
 
 import "./styles/root.css";
 import Navbar from "./components/navbar";
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { getSession } from "./services/sessions";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
@@ -17,11 +17,14 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     request.headers.get("Cookie")
   );
   // console.log('userId', session.get("userId"));
-  return session.get("userId") || null;
+  return json({
+    userId: session.get("userId"),
+    displayName: session.get("displayName")
+  });
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const userId = useLoaderData<typeof loader>();
+  const data = useLoaderData<typeof loader>();
 
   return (
     <html lang="en">
@@ -33,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div>
-          <Navbar userId={userId} />
+          <Navbar userId={data.userId} displayName={data.displayName} />
         </div>
         {children}
         <ScrollRestoration />

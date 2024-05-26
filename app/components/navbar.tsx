@@ -2,7 +2,7 @@ import { Link, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import "../styles/navbar.css";
 
-export default function Navbar({ userId }: { userId: string | null }) {
+export default function Navbar({ displayName, userId }: { displayName: string | null, userId: string | null }) {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const matches = useMatches();
@@ -26,7 +26,7 @@ export default function Navbar({ userId }: { userId: string | null }) {
             <nav className={`nav ${isOpen ? 'open' : ''}`}>
                 <ul className="nav-list">
                     <li>
-                        {userId ? `Hello ${userId}` : 'Please Login!'}
+                        {displayName ? `Hello ${displayName}` : 'Please Login!'}
                     </li>
                     <li>
                         <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>

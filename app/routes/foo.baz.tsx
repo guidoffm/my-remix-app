@@ -7,11 +7,11 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
-    return json({ userId: userId });
+    return json({ userId: userId, displayName: session.get('displayName')});
 };
 
 export default function FooBaz() {
-    const data = useLoaderData<{ userId: string }>();
+    const data = useLoaderData<typeof loader>();
     const [result, setResult] = useState('');
 
     const btnClick = async () => {
@@ -23,7 +23,7 @@ export default function FooBaz() {
 
     return (
         <div>
-            <h1>Hello {data.userId}</h1>
+            <h1>Hello {data.displayName}</h1>
             <button type="button" onClick={btnClick}>Button</button>
             <div>{result}</div>
         </div>

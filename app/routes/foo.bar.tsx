@@ -2,24 +2,23 @@ import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, LoaderFunction, json } from "@remix-run/node";
 import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import { getSession } from "~/services/sessions";
+import { Profile } from "~/types/profile";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
-  
+
+    if (!userId) {
+        return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+    }
+
     // console.log('request:', request);
     // const data = await fetchData(); // Ersetzen Sie dies durch Ihre eigene Logik zum Abrufen von Daten
-    // const daprClient = new DaprClient();
-    // const data = await daprClient.state.query('userstore2', {
-    //     filter: {},
-    //     page: {
-    //         limit: 100
-    //     },
-    //     sort: []
-    // });
-    // console.log('data:', data);
-    return { userId: userId };
+    const daprClient = new DaprClient();
+    const data: Profile = await daprClient.state.get('profile', userId) as Profile;
+    console.log('data:', data);
+    return { data: data };
 };
 
 export default function FooBar() {
@@ -62,11 +61,11 @@ export async function action({ request, }: ActionFunctionArgs) {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
-  
+
     if (!userId) {
-      return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+        return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
     }
-    
+
     const formData = await request.formData();
     // console.log('formData:', formData);
     const email = formData.get("email");
