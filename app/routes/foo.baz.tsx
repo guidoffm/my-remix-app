@@ -1,13 +1,17 @@
-// import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { getSession } from "~/services/sessions";
 
-// export let loader: LoaderFunction = async ({ request, context, params }) => {
-
-//     return { message: 'Hello World' };
-// };
+export let loader: LoaderFunction = async ({ request, context, params }) => {
+    const cookies = request.headers.get('Cookie');
+    const session = await getSession(cookies);
+    const userId = session.get('userId');
+    return json({ userId: userId });
+};
 
 export default function FooBaz() {
-
+    const data = useLoaderData<{ userId: string }>();
     const [result, setResult] = useState('');
 
     const btnClick = async () => {
@@ -19,7 +23,7 @@ export default function FooBaz() {
 
     return (
         <div>
-            <h1>Hello World</h1>
+            <h1>Hello {data.userId}</h1>
             <button type="button" onClick={btnClick}>Button</button>
             <div>{result}</div>
         </div>

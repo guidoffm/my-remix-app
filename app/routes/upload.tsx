@@ -3,6 +3,7 @@ import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { bindingFilesStoreName } from "../types/constants";
+import { getSession } from "~/services/sessions";
 
 export let headers = {
   'Cache-Control': 'no-store'
@@ -22,6 +23,14 @@ export default function Upload() {
 }
 
 export const action = async ({ request, }: ActionFunctionArgs) => {
+  const cookies = request.headers.get('Cookie');
+  const session = await getSession(cookies);
+  const userId = session.get('userId');
+
+  if (!userId) {
+    return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+  }
+
   const uploadHandler = unstable_createMemoryUploadHandler({
     maxPartSize: 5_000_000,
   });
@@ -38,10 +47,9 @@ export const action = async ({ request, }: ActionFunctionArgs) => {
   const obj = {
     key: uuidv4(),
     value: {
-      // buffer: buffer.toJSON(),
       fileName: blob.name,
       type: blob.type,
-      uploader: 'user',
+      uploader: userId,
       uploadTime: new Date().toISOString()
     } as ImageState
   };
