@@ -11,7 +11,7 @@ export default function FooBaz() {
     const [result, setResult] = useState('');
 
     const btnClick = async () => {
-        console.log('button clicked');
+        console.log('btnClick');
         const myResponse = await fetch('/api/my');
         const myResult = await myResponse.json();
         setResult(myResult.foo);
