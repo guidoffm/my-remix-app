@@ -1,11 +1,12 @@
 import { DaprClient } from "@dapr/dapr";
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { getSession } from "~/services/sessions";
 import { stateUserStoreName } from "~/types/constants";
 import { User } from "~/types/user";
 import { createHash } from "crypto";
 import { useEffect, useState } from "react";
+import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
 
 export default function ProfilePassword() {
 
@@ -79,7 +80,7 @@ export async function action({ request, }: ActionFunctionArgs) {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
-    const displayName = session.get('displayName');
+    // const displayName = session.get('displayName');
 
     if (!userId) {
         return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
@@ -91,14 +92,20 @@ export async function action({ request, }: ActionFunctionArgs) {
     // console.log('password:', password);
     const passwordHash = createHash('sha256').update(password as string).digest('hex');
     const daprClient = new DaprClient();
-    const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{
-        key: userId,
-        value: {
-            displayName: displayName,
-            passwordHash: passwordHash,
-        } as User
-    }]);
+    const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
+    console.log('stateGetResult:', stateGetResult);
+    // const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{
+    //     key: userId,
+    //     value: {
+    //         displayName: displayName,
+    //         passwordHash: passwordHash,
+    //     } as User
+    // }]);
+    stateGetResult.passwordHash = passwordHash;
+    const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
     console.log('stateSaveResult:', stateSaveResult);
 
-    return json({ ok: true });
+    // Login succeeded, send them to the home page.
+    return redirect("/");
+    // return json({ ok: true });
 }

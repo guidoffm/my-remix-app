@@ -5,8 +5,6 @@ import { User } from "~/types/user";
 
 export async function validateCredentials(username: FormDataEntryValue | null, password: FormDataEntryValue | null): Promise<{ key: string; data: User; etag?: string | undefined; error?: string | undefined; } | null> {
     const daprClient = new DaprClient();
-    // Implement your logic to validate the credentials here
-    // For example, you can check if the username and password match a user in your database
     // Return the userId if the credentials are valid, otherwise return null
     const passwordHash = createHash('sha256').update(password as string).digest('hex');
     // console.log('passwordHash', passwordHash);
