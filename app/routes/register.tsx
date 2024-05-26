@@ -17,7 +17,7 @@ export default function Register() {
     return (
         <div className="outer">
             <h1>Register as new user</h1>
-            <div className="inner" style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
+            <div className="inner">
                 <Form>
                     <label>
                         Email:
