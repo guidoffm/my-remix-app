@@ -29,8 +29,6 @@ export async function loader({ request, }: LoaderFunctionArgs) {
     });
 }
 
-
-
 export async function action({ request, }: ActionFunctionArgs) {
     const session = await getSession(
         request.headers.get("Cookie")

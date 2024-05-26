@@ -10,12 +10,12 @@ export async function validateCredentials(username: FormDataEntryValue | null, p
     // Return the userId if the credentials are valid, otherwise return null
     const passwordHash = createHash('sha256').update(password as string).digest('hex');
     // console.log('passwordHash', passwordHash);
-    // echo -n '6sg,78sufgr'| shasum -a 256 -b
+    // echo -n 'MyP@ssw0rd'| shasum -a 256
     // await daprClient.state.save(stateUserStoreName, [{
     //     key: '1715C4B2-F0A7-4EC1-92CB-66CE9C73EEF3',
     //     value: {
     //         displayName: "admin",
-    //         passwordHash: "dc5b242a597a39651f22931828cfddeb49c3971e764225a9e31dbed88615b657",
+    //         passwordHash: "b676993c5c591ce1f67b0f0efc4912a8a04782b1283254824c7fb9afc3d7dd3f",
     //     } as User
     // }]);
     const data = await daprClient.state.query(stateUserStoreName, {
@@ -37,9 +37,4 @@ export async function validateCredentials(username: FormDataEntryValue | null, p
     }
 
     return data.results[0];
-    // if (username === "admin" && passwordHash === "dc5b242a597a39651f22931828cfddeb49c3971e764225a9e31dbed88615b657") {
-    //     return Promise.resolve("123456");
-    // } else {
-    //     return Promise.resolve(null);
-    // }
 }
