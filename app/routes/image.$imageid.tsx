@@ -1,12 +1,15 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
+import { getSession } from "~/services/sessions";
 import { bindingFilesStoreName, stateFilesStoreName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 
-export async function loader({
+export async function loader({request,
     params,
 }: LoaderFunctionArgs) {
-
+    const cookies = request.headers.get('Cookie');
+    const session = await getSession(cookies);
+    const userId = session.get('userId');
     const daprClient = new DaprClient();
     
     const { imageid } = params;
@@ -16,11 +19,18 @@ export async function loader({
             status: 404,
         });
     }
+    
     const stateGetResult = await daprClient.state.get(stateFilesStoreName, imageid) as ImageState;
 
     if (!stateGetResult) {
         return new Response("No image found", {
             status: 404,
+        });
+    }
+
+    if (stateGetResult.uploader !== userId) {
+        return new Response("Unauthorized", {
+            status: 403,
         });
     }
 
