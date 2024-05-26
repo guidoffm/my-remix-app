@@ -54,6 +54,20 @@ export default function Navbar({ userId }: { userId: string | null }) {
                                 <Link to="/upload" className={`nav-link ${isActive('/upload') ? 'active' : ''}`}>Upload</Link>
                             </li>
                             <li>
+                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>Profile</Link>
+                                <ul>
+                                    <li>
+                                        <Link to="/profile/username" className={`nav-link ${isActive('/profile/username') ? 'active' : ''}`}>Username</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/profile/password" className={`nav-link ${isActive('/profile/password') ? 'active' : ''}`}>Password</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/profile/email" className={`nav-link ${isActive('/profile/email') ? 'active' : ''}`}>Email</Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
                                 <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'active' : ''}`}>Logout</Link>
                             </li>
                         </>
