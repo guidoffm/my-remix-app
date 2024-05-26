@@ -2,7 +2,9 @@ export type User = {
     displayName: string;
     passwordHash: string;
     userId: string;
-    email: string;
+    email?: string;
     emailVerified: boolean;
-    pendingEmail: string;
+    emailVerificationCode?: string;
+    emailVerificationCodeCreatedAt?: number;
+    pendingEmail?: string;
 };

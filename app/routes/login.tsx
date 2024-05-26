@@ -55,7 +55,7 @@ export async function action({ request, }: ActionFunctionArgs) {
             },
         });
     }
-    console.log('user', user);
+    // console.log('user', user);
     session.set("userId", user.key);
     session.set("displayName", user.data.displayName);
 

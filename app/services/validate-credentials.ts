@@ -22,6 +22,8 @@ export async function validateCredentials(username: FormDataEntryValue | null, p
                 EQ: { displayName: username }
             }, {
                 EQ: { passwordHash: passwordHash }
+            }, {
+                EQ: { emailVerified: true } 
             }]
         },
         page: {
