@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import my from "~/my.server";
+import my from "~/services/my.server";
 
 export async function loader({
     params,
