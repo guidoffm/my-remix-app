@@ -42,13 +42,19 @@ export default function Navbar({ userId }: { userId: string | null }) {
                                 <Link to="/foo" className={`nav-link ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
                             </li>
                             <li>
-                                <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'active' : ''}`}>Logout</Link>
+                                <Link to="/foo/bar" className={`nav-link ${isActive('/foo/bar') ? 'active' : ''}`}>Foo Bar</Link>
+                            </li>
+                            <li>
+                                <Link to="/foo/baz" className={`nav-link ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
                             </li>
                             <li>
                                 <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'active' : ''}`}>My Page</Link>
                             </li>
                             <li>
                                 <Link to="/upload" className={`nav-link ${isActive('/upload') ? 'active' : ''}`}>Upload</Link>
+                            </li>
+                            <li>
+                                <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'active' : ''}`}>Logout</Link>
                             </li>
                         </>
                     }

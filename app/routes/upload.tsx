@@ -45,18 +45,18 @@ export const action = async ({ request, }: ActionFunctionArgs) => {
       uploadTime: new Date().toISOString()
     } as ImageState
   };
-  console.log('key:', obj.key);
+  // console.log('key:', obj.key);
   const base64 = buffer.toString('base64');
   const createResult = await daprClient.binding.send(bindingFilesStoreName, 'create', base64, {
     "Content-Type": obj.value.type,
     key: obj.key
   });
-  console.log('createResult:', createResult);
+  // console.log('createResult:', createResult);
   // const getResult = await daprClient.binding.send('minio', 'get', undefined, { key: obj.key });
   // const decodedBuffer = Buffer.from(getResult as unknown as string, 'base64');
   // console.log('decodedBuffer:', decodedBuffer.length);
   const saveResult = await daprClient.state.save('files', [obj]);
-  console.log('saveResult:', saveResult);
+  // console.log('saveResult:', saveResult);
 
   return json({ ok: true });
 };
