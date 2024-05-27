@@ -1,4 +1,4 @@
-export type User = {
+interface User {
     displayName: string;
     passwordHash: string;
     userId: string;
@@ -7,4 +7,9 @@ export type User = {
     emailVerificationCode?: string;
     emailVerificationCodeCreatedAt?: number;
     pendingEmail?: string;
+    lastLogin?: number;
+};
+
+interface UserWithKey extends User {
+    userId: string;
 };
