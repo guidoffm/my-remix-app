@@ -53,6 +53,9 @@ export default function Admin() {
                             <th scope="col">displayName</th>
                             <th scope="col">email</th>
                             <th scope="col">emailVerified</th>
+                            <th scope="col">emailVerificationCode</th>
+                            <th scope="col">emailVerificationCodeCreatedAt</th>
+                            <th scope="col">pendingEmail</th>
                         </tr>
                     </thead>
                     <tbody>
