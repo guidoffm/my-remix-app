@@ -21,8 +21,8 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
 export default function Index() {
   const displayName = useLoaderData<typeof loader>();
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Guido's Website</h1>
+    <div>
+      <h1 className="text-3xl font-bold underline">Guido's Website</h1>
       {displayName &&
         <div>
           <MyComp displayName={displayName} />

@@ -6,11 +6,15 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-
+import stylesheet from "./styles/tailwind.css?url";
 import "./styles/root.css";
 import Navbar from "./components/navbar";
-import { LoaderFunction, json } from "@remix-run/node";
+import { LinksFunction, LoaderFunction, json } from "@remix-run/node";
 import { getSession } from "./services/sessions";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+];
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
   const session = await getSession(
