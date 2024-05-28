@@ -26,13 +26,12 @@ export default function AdminUser() {
     const revalidator = useRevalidator();
     const user = useLoaderData<typeof loader>();
 
-    const grantAdmin = async (grant: boolean) => {
-        console.log('Button clicked!');
-        console.log('user', user);
+    const grantAdmin = async (key: string, grant: boolean) => {
+        console.log(`grantAdmin("${key}",${grant})`);
         await fetch('/api/user', {
             method: 'PATCH',
             body: JSON.stringify({
-                id: user.key,
+                id: key,
                 roles: grant ? ['admin'] : []
             }),
             headers: {
@@ -79,8 +78,8 @@ export default function AdminUser() {
                 </tbody>
             </table>
             <div>
-                <button type="button" onClick={() => grantAdmin(true)}>Grant Admin role</button>
-                <button type="button" onClick={() => grantAdmin(false)}>Revoke Admin role</button>
+                <button type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
+                <button type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
             </div>
 
         </div>
