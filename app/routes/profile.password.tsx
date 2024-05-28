@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-import { getSession } from "~/services/sessions";
+import { requireUserId } from "~/services/sessions";
 import { stateUserStoreName } from "~/types/constants";
 import { User } from "~/types/user";
 import { createHash } from "crypto";
@@ -86,14 +86,7 @@ export default function ProfilePassword() {
 
 export async function action({ request, }: ActionFunctionArgs) {
 
-    const cookies = request.headers.get('Cookie');
-    const session = await getSession(cookies);
-    const userId = session.get('userId');
-    // const displayName = session.get('displayName');
-
-    if (!userId) {
-        return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
-    }
+    const userId = await requireUserId(request);
 
     const formData = await request.formData();
     // console.log('formData:', formData);

@@ -30,13 +30,8 @@ export default function Upload() {
 }
 
 export const action = async ({ request, }: ActionFunctionArgs) => {
-  const cookies = request.headers.get('Cookie');
-  const session = await getSession(cookies);
-  const userId = session.get('userId');
-
-  if (!userId) {
-    return redirect('/login');
-  }
+  
+  const userId = await requireUserId(request);
 
   const uploadHandler = unstable_createMemoryUploadHandler({
     maxPartSize: 5_000_000,
