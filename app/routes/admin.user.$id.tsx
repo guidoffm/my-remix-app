@@ -78,10 +78,9 @@ export default function AdminUser() {
                 </tbody>
             </table>
             <div>
-                <button type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
-                <button type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
+                <button style={{margin: '20px'}} type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
+                <button style={{margin: '20px'}} type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
             </div>
-
         </div>
     );
 }
