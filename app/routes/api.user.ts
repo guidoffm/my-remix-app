@@ -4,26 +4,26 @@ import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { stateUserStoreName } from "~/types/constants";
 import { User } from "~/types/user";
 
-export async function loader({
-    request, params,
-}: LoaderFunctionArgs) {
-    const id = request.url.split('?')[1].split('=')[1];
-    // console.log('id:', id);
-    if (!id) {
-        return new Response("No user found", {
-            status: 404,
-        });
-    }
-    const daprClient = new DaprClient();
-    const data = await daprClient.state.get(stateUserStoreName, id);
-    return new Response(JSON.stringify(data), {
-        status: 200,
-        headers: {
-            "Content-Type": 'application/json',
-        },
-    } as ResponseInit);
+// export async function loader({
+//     request, params,
+// }: LoaderFunctionArgs) {
+//     const id = request.url.split('?')[1].split('=')[1];
+//     // console.log('id:', id);
+//     if (!id) {
+//         return new Response("No user found", {
+//             status: 404,
+//         });
+//     }
+//     const daprClient = new DaprClient();
+//     const data = await daprClient.state.get(stateUserStoreName, id);
+//     return new Response(JSON.stringify(data), {
+//         status: 200,
+//         headers: {
+//             "Content-Type": 'application/json',
+//         },
+//     } as ResponseInit);
 
-}
+// }
 
 export async function action({ request, params }: ActionFunctionArgs) {
     if (request.method === 'PATCH') {

@@ -60,6 +60,7 @@ export default function AdminUsers() {
                             <th scope="col">emailVerificationCode</th>
                             <th scope="col">emailVerificationCodeCreatedAt</th>
                             <th scope="col">pendingEmail</th>
+                            <th scope="col">Admin</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,7 @@ export default function AdminUsers() {
                                 <td>{user.emailVerificationCode}</td>
                                 <td><DateFromNumber number={user.emailVerificationCodeCreatedAt} /></td>
                                 <td>{user.pendingEmail}</td>
+                                <td><CheckboxFromBoolean value={user.roles?.includes('admin')} /></td>
                             </tr>
                         ))}
                     </tbody>
