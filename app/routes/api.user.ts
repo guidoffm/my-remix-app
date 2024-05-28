@@ -27,10 +27,13 @@ import { User } from "~/types/user";
 // }
 
 export async function action({ request, params }: ActionFunctionArgs) {
+    
     const userId = getUserId(request);
+    
     if (!userId) {
         return new Response('Forbidden', { status: 403 });
     }
+    
     if (request.method === 'PATCH') {
         const daprClient = new DaprClient();
         const body = await request.json();
