@@ -1,24 +1,12 @@
-import { LoaderFunction, json, redirect } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { Link, Outlet } from "@remix-run/react";
-import { getSession } from "~/services/sessions";
+import { requireAdmin, requireUserId } from "~/services/sessions";
 
-export let loader: LoaderFunction = async ({ request, context, params }) => {
-    const cookies = request.headers.get('Cookie');
-    const session = await getSession(cookies);
-    const userId = session.get('userId');
+export let loader: LoaderFunction = async ({ request }) => {
 
-    if (!userId) {
-        return redirect('/login');
-    }
-
-    const roles = session.get('roles');
-    console.log('roles', roles);
-
-    if (!roles || !roles.includes('admin')) {
-       return redirect('/forbidden');
-    }
-
-    return json({ ok: true });
+    await requireUserId(request);
+    await requireAdmin(request);
+    return json({});
 }
 export default function Admin() {
     return (

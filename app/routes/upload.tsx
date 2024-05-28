@@ -1,12 +1,18 @@
 import { DaprClient } from "@dapr/dapr";
-import { ActionFunctionArgs, json, redirect, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunction, json, redirect, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { bindingFilesStoreName } from "../types/constants";
-import { getSession } from "~/services/sessions";
+import { getSession, requireUserId } from "~/services/sessions";
 
 export let headers = {
   'Cache-Control': 'no-store'
+}
+
+export let loader: LoaderFunction = async ({ request }) => {
+  await requireUserId(request);
+
+  return json({});
 }
 
 export default function Upload() {

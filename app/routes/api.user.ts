@@ -1,6 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
 import { ActionFunctionArgs, json } from "@remix-run/node";
+import { getUserId } from "~/services/sessions";
 import { bindingFilesStoreName, stateFilesStoreName, stateUserStoreName } from "~/types/constants";
 import { User } from "~/types/user";
 
@@ -26,7 +27,10 @@ import { User } from "~/types/user";
 // }
 
 export async function action({ request, params }: ActionFunctionArgs) {
-
+    const userId = getUserId(request);
+    if (!userId) {
+        return new Response('Forbidden', { status: 403 });
+    }
     if (request.method === 'PATCH') {
         const daprClient = new DaprClient();
         const body = await request.json();
@@ -40,7 +44,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         // console.log('stateSaveResult:', stateSaveResult);
         return json({}, { status: 204 });
     }
-    
+
     if (request.method === 'DELETE') {
         const daprClient = new DaprClient();
         const body = await request.json();

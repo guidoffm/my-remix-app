@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage, redirect } from "@remix-run/node"; // or cloudflare/deno
 
 type SessionData = {
   userId: string;
@@ -34,3 +34,28 @@ const { getSession, commitSession, destroySession } =
   );
 
 export { getSession, commitSession, destroySession };
+
+export async function getUserId(request: Request) {
+  const session = await getSession(request.headers.get('Cookie'));
+  return session.get('userId');
+}
+
+export async function requireUserId(
+  request: Request,
+) {
+  const userId = await getUserId(request);
+  if (!userId) {
+    throw redirect('/login');
+  }
+  return userId;
+}
+
+export async function requireAdmin(
+  request: Request,
+) {
+  const session = await getSession(request.headers.get('Cookie'));
+  const roles = session.get('roles');
+  if (!roles || !roles.includes('admin')) {
+    throw redirect('/forbidden');
+  }
+}
