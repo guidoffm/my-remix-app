@@ -1,4 +1,4 @@
-interface User {
+export interface User {
     displayName: string;
     passwordHash: string;
     userId: string;
@@ -10,6 +10,6 @@ interface User {
     lastLogin?: number;
 };
 
-interface UserWithKey extends User {
+export interface UserWithKey extends User {
     userId: string;
 };

@@ -1,5 +1,5 @@
 import { DaprClient } from "@dapr/dapr";
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import MyImage from "~/components/my-image";
 import { getSession } from "~/services/sessions";
@@ -9,6 +9,9 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
+    if (!userId) {
+        return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+    }
     const daprClient = new DaprClient();
     const data = await daprClient.state.query(stateFilesStoreName, {
 
@@ -22,6 +25,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
         },
         sort: []
     });
+    
     const imageKeys = data.results.map((item: any) => item.key);
     return imageKeys;
 };

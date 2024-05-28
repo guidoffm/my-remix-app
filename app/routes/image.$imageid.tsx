@@ -4,14 +4,17 @@ import { getSession } from "~/services/sessions";
 import { bindingFilesStoreName, stateFilesStoreName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 
-export async function loader({request,
+export async function loader({ request,
     params,
 }: LoaderFunctionArgs) {
     const cookies = request.headers.get('Cookie');
     const session = await getSession(cookies);
     const userId = session.get('userId');
+    if (!userId) {
+        return new Response('Forbidden', { status: 403 });
+    }
     const daprClient = new DaprClient();
-    
+
     const { imageid } = params;
 
     if (!imageid) {
@@ -19,7 +22,7 @@ export async function loader({request,
             status: 404,
         });
     }
-    
+
     const stateGetResult = await daprClient.state.get(stateFilesStoreName, imageid) as ImageState;
 
     if (!stateGetResult) {
@@ -29,7 +32,7 @@ export async function loader({request,
     }
 
     if (stateGetResult.uploader !== userId) {
-        return new Response("Unauthorized", {
+        return new Response("Forbidden", {
             status: 403,
         });
     }

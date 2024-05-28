@@ -1,8 +1,9 @@
 import { DaprClient } from "@dapr/dapr";
-import { LoaderFunction, json } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { getSession } from "~/services/sessions";
 import { stateUserStoreName } from "~/types/constants";
+import { User, UserWithKey } from "~/types/user";
 // import { User } from "~/types/user";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
