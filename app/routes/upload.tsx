@@ -4,6 +4,7 @@ import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { bindingFilesStoreName } from "../types/constants";
 import { getSession, requireUserId } from "~/services/sessions";
+import '../styles/upload.css';
 
 export let headers = {
   'Cache-Control': 'no-store'
@@ -18,11 +19,11 @@ export let loader: LoaderFunction = async ({ request }) => {
 export default function Upload() {
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundColor: '#f8f8f8' }}>
-      <h1 style={{ marginBottom: '50px' }}>Upload</h1>
-      <form method="post" encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '20px', borderRadius: '10px', backgroundColor: '#fff', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
-        <input type="file" name="avatar" style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ddd' }} />
-        <button type="submit" style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#007BFF', color: '#fff', cursor: 'pointer' }}>Upload</button>
+    <div className="upload-container">
+      <h1 className="upload-header">Upload</h1>
+      <form method="post" encType="multipart/form-data" className="upload-form">
+        <input type="file" name="avatar" className="upload-input" />
+        <button type="submit" className="upload-button">Upload</button>
       </form>
     </div>
   );
