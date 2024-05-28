@@ -1,5 +1,5 @@
 import { DaprClient } from "@dapr/dapr";
-import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { bindingFilesStoreName } from "../types/constants";
@@ -28,7 +28,7 @@ export const action = async ({ request, }: ActionFunctionArgs) => {
   const userId = session.get('userId');
 
   if (!userId) {
-    return json({ ok: false, message: 'Unauthorized' }, { status: 401 });
+    return redirect('/login');
   }
 
   const uploadHandler = unstable_createMemoryUploadHandler({

@@ -8,7 +8,7 @@ export interface User {
     emailVerificationCodeCreatedAt?: number;
     pendingEmail?: string;
     lastLogin?: number;
-    roles?: string[];
+    roles: string[];
 };
 
 export interface UserWithKey extends User {

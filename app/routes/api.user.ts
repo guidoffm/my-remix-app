@@ -26,6 +26,7 @@ import { User } from "~/types/user";
 // }
 
 export async function action({ request, params }: ActionFunctionArgs) {
+
     if (request.method === 'PATCH') {
         const daprClient = new DaprClient();
         const body = await request.json();
@@ -39,6 +40,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         // console.log('stateSaveResult:', stateSaveResult);
         return json({}, { status: 204 });
     }
+    
     if (request.method === 'DELETE') {
         const daprClient = new DaprClient();
         const body = await request.json();

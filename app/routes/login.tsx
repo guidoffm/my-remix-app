@@ -58,6 +58,7 @@ export async function action({ request, }: ActionFunctionArgs) {
     // console.log('user', user);
     session.set("userId", user.key);
     session.set("displayName", user.data.displayName);
+    session.set("roles", user.data.roles);
 
     // Login succeeded, send them to the home page.
     return redirect("/", {
