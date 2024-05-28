@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { stateUserStoreName } from "~/types/constants";
+import { ActionFunctionArgs, json } from "@remix-run/node";
+import { bindingFilesStoreName, stateFilesStoreName, stateUserStoreName } from "~/types/constants";
 import { User } from "~/types/user";
 
 // export async function loader({
@@ -37,6 +37,59 @@ export async function action({ request, params }: ActionFunctionArgs) {
         // stateGetResult.passwordHash = passwordHash;
         const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
         // console.log('stateSaveResult:', stateSaveResult);
+        return json({}, { status: 204 });
+    }
+    if (request.method === 'DELETE') {
+        const daprClient = new DaprClient();
+        const body = await request.json();
+        const userId = body.id;
+
+        const data = await daprClient.state.query(stateFilesStoreName, {
+
+            filter: {
+                EQ: {
+                    uploader: userId
+                }
+            },
+            page: {
+                limit: 100
+            },
+            sort: []
+        });
+
+        const ids = data.results.map((item) => {
+            return item.key;
+        });
+
+        console.log('ids:', ids);
+
+        for (const imageid of ids) {
+            try {
+                const getResult = await daprClient.binding.send(bindingFilesStoreName, 'get', undefined, { key: imageid });
+                console.log('getResult:', (getResult as unknown as string).length);
+            } catch (error) {
+                console.log('error:', error);
+            }
+            try {
+                const bindingDeleteResult = await daprClient.binding.send(bindingFilesStoreName, 'delete', undefined, { key: imageid });
+                console.log('bindingDeleteResult:', bindingDeleteResult);
+            } catch (error) {
+                console.log('error:', error);
+            }
+            try {
+                const stateDeleteResult = await daprClient.state.delete(stateFilesStoreName, imageid);
+                console.log('stateDeleteResult:', stateDeleteResult);
+            } catch (error) {
+                console.log('error:', error);
+            }
+        }
+
+        try {
+            const stateDeleteResult = await daprClient.state.delete(stateUserStoreName, userId);
+            console.log('stateDeleteResult:', stateDeleteResult);
+        } catch (error) {
+            console.log('error:', error);
+        }
         return json({}, { status: 204 });
     }
     return json({}, { status: 400 });

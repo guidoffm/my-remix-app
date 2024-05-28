@@ -102,6 +102,7 @@ export async function action({ request, }: ActionFunctionArgs) {
             email: undefined,
             emailVerificationCode: emailVerificationCode,
             emailVerificationCodeCreatedAt: new Date().getTime(),
+            roles: []
         } as User
     }]);
     // stateGetResult.passwordHash = passwordHash;

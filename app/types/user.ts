@@ -1,7 +1,7 @@
 export interface User {
     displayName: string;
     passwordHash: string;
-    userId: string;
+    // userId: string;
     email?: string;
     emailVerified: boolean;
     emailVerificationCode?: string;

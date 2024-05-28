@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useRevalidator } from "@remix-run/react";
+import { useLoaderData, useNavigate, useRevalidator } from "@remix-run/react";
 import CheckboxFromBoolean from "~/components/checkbox-from-boolean";
 import DateFromNumber from "~/components/date-from-number";
 import { stateUserStoreName } from "~/types/constants";
@@ -19,11 +19,12 @@ export async function loader({ request,
     console.log('id:', id);
     const daprClient = new DaprClient();
     const data = await daprClient.state.get(stateUserStoreName, id);
-    return { ...data as User, key: id } as UserWithKey;
+    return { ...data as User, key: id } as unknown as UserWithKey;
 }
 
 export default function AdminUser() {
     const revalidator = useRevalidator();
+    const navigate = useNavigate();
     const user = useLoaderData<typeof loader>();
 
     const grantAdmin = async (key: string, grant: boolean) => {
@@ -39,6 +40,21 @@ export default function AdminUser() {
             }
         });
         revalidator.revalidate();
+    };
+
+    const deleteUser = async (key: string) => {
+        console.log(`deleteUser("${key}")`);
+        await fetch('/api/user', {
+            method: 'DELETE',
+            body: JSON.stringify({
+                id: key
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // revalidator.revalidate();
+        navigate('/admin/users');
     };
 
     return (
@@ -80,6 +96,7 @@ export default function AdminUser() {
             <div>
                 <button style={{margin: '20px'}} type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
                 <button style={{margin: '20px'}} type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
+                <button style={{margin: '20px'}} type="button" onClick={() => deleteUser(user.key)}>Delete User</button>
             </div>
         </div>
     );
