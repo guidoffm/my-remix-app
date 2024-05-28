@@ -26,7 +26,7 @@ export default function Navbar({ displayName, userId }: { displayName: string | 
             <nav className={`nav ${isOpen ? 'open' : ''}`}>
                 <ul className="nav-list">
                     <li>
-                        {displayName ? `Hello ${displayName}` : 'Please Login!'}
+                        {displayName ? `Hello ${displayName}` : ''}
                     </li>
                     <li>
                         <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
@@ -38,7 +38,7 @@ export default function Navbar({ displayName, userId }: { displayName: string | 
                     }
                     {userId &&
                         <>
-                            <li>
+                            {/* <li>
                                 <Link to="/foo" className={`nav-link ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
                             </li>
                             <li>
@@ -46,7 +46,7 @@ export default function Navbar({ displayName, userId }: { displayName: string | 
                             </li>
                             <li>
                                 <Link to="/foo/baz" className={`nav-link ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'active' : ''}`}>My Page</Link>
                             </li>
