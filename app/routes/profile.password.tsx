@@ -1,5 +1,5 @@
 import { DaprClient } from "@dapr/dapr";
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { requireUserId } from "~/services/sessions";
 import { stateUserStoreName } from "~/types/constants";
@@ -45,8 +45,7 @@ export default function ProfilePassword() {
         <div className="w-full max-w-xs">
             <h1>Password</h1>
             <Form method="post"
-                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"                >
-                {/* <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Settings for {user.displayName}</h1> */}
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                         New Password
@@ -85,7 +84,7 @@ export default function ProfilePassword() {
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
-                        className={(isSubmitDisabled ? "bg-gray-300" : "bg-blue-500 hover:bg-blue-700") + " text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"}
+                        className={`${isSubmitDisabled ? "bg-gray-300" : "bg-blue-500 hover:bg-blue-700"} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                         disabled={isSubmitDisabled}
                     >Update Password</button>
                 </div>
@@ -100,7 +99,7 @@ export async function action({ request, }: ActionFunctionArgs) {
 
     const formData = await request.formData();
     // console.log('formData:', formData);
-    const password = formData.get("password");
+    const password = formData.get('password');
     // console.log('password:', password);
     const passwordHash = createHash('sha256').update(password as string).digest('hex');
     const daprClient = new DaprClient();
