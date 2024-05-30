@@ -21,9 +21,11 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     request.headers.get("Cookie")
   );
   // console.log('userId', session.get("userId"));
+  const roles = session.get("roles");
   return json({
     userId: session.get("userId"),
-    displayName: session.get("displayName")
+    displayName: session.get("displayName"),
+    isAdmin: roles && roles.includes("admin"),
   });
 };
 
@@ -40,7 +42,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div>
-          <Navbar userId={data.userId} displayName={data.displayName} />
+          <Navbar userId={data.userId} displayName={data.displayName} isAdmin={data.isAdmin} />
         </div>
         {children}
         <ScrollRestoration />

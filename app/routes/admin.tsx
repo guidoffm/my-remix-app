@@ -11,13 +11,11 @@ export let loader: LoaderFunction = async ({ request }) => {
 export default function Admin() {
     return (
         <div>
-            <h1>Admin</h1>
+            <h2 className="h2">Admin</h2>
             <p>Welcome to the admin page.</p>
             <nav>
-                <ul>
-                    <li><Link to=".">Home</Link></li>
-                    <li><Link to="users">Users</Link></li>
-                </ul>
+                <Link to="." className={`underline text-xl font-semibold m-2 text-blue-600`}>Home</Link>
+                <Link to="users" className={`underline text-xl font-semibold m-2 text-blue-600`}>Users</Link>
             </nav>
             <Outlet />
         </div>

@@ -49,30 +49,30 @@ export default function AdminUsers() {
     // console.log('dataMyTable', dataMyTable);
     return (
         <div className="outer">
-            <h1>Users</h1>
+            <h2 className="h2">Users</h2>
             <div className="inner">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">displayName</th>
-                            <th scope="col">email</th>
-                            <th scope="col">emailVerified</th>
-                            <th scope="col">emailVerificationCode</th>
-                            <th scope="col">emailVerificationCodeCreatedAt</th>
-                            <th scope="col">pendingEmail</th>
-                            <th scope="col">Admin</th>
+                <table className="table border-collapse border-black border">
+                    <thead className="border border-black">
+                        <tr className="table-row">
+                            <th scope="col" className="border border-black p-1">displayName</th>
+                            <th scope="col" className="border border-black p-1">email</th>
+                            <th scope="col" className="border border-black p-1">emailVerified</th>
+                            <th scope="col" className="border border-black p-1">emailVerificationCode</th>
+                            <th scope="col" className="border border-black p-1">emailVerificationCodeCreatedAt</th>
+                            <th scope="col" className="border border-black p-1">pendingEmail</th>
+                            <th scope="col" className="border border-black p-1">Admin</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="border border-black">
                         {(dataMyTable).map((user, index: number) => (
-                            <tr key={index}>
-                                <td><Link to={`/admin/user/${user.userId}`}>{user.displayName}</Link></td>
-                                <td>{user.email}</td>
-                                <td><CheckboxFromBoolean value={user.emailVerified} /></td>
-                                <td>{user.emailVerificationCode}</td>
-                                <td><DateFromNumber number={user.emailVerificationCodeCreatedAt} /></td>
-                                <td>{user.pendingEmail}</td>
-                                <td><CheckboxFromBoolean value={user.roles?.includes('admin')} /></td>
+                            <tr key={index} className="table-row">
+                                <td className="border border-black p-1"><Link to={`/admin/user/${user.userId}`} className="underline font-semibold text-blue-600">{user.displayName}</Link></td>
+                                <td className="border border-black p-1">{user.email}</td>
+                                <td className="border border-black p-1 text-center"><CheckboxFromBoolean value={user.emailVerified} /></td>
+                                <td className="border border-black p-1">{user.emailVerificationCode}</td>
+                                <td className="border border-black p-1"><DateFromNumber number={user.emailVerificationCodeCreatedAt} /></td>
+                                <td className="border border-black p-1">{user.pendingEmail}</td>
+                                <td className="border border-black p-1 text-center"><CheckboxFromBoolean value={user.roles?.includes('admin')} /></td>
                             </tr>
                         ))}
                     </tbody>

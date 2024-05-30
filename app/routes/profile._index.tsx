@@ -1,19 +1,7 @@
-import { Link, useLocation, useMatches } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { Link } from "@remix-run/react";
 
 export default function Profile() {
-    const location = useLocation();
-    const matches = useMatches();
-    const [activePath, setActivePath] = useState("");
 
-    useEffect(() => {
-        const activeMatch = matches.find(match => match.pathname === location.pathname);
-        setActivePath(activeMatch ? activeMatch.pathname : "");
-    }, [matches, location]);
-
-    const isActive = (path: string) => {
-        return path === activePath;
-    };
     return (
         <div>
 
