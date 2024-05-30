@@ -16,17 +16,13 @@ export default function Profile() {
     };
     return (
         <div>
-            <ul>
-                <li>
-                    <Link to="/profile/username" className={`nav-link ${isActive('/profile/username') ? 'active' : ''}`}>Username</Link>
-                </li>
-                <li>
-                    <Link to="/profile/password" className={`nav-link ${isActive('/profile/password') ? 'active' : ''}`}>Password</Link>
-                </li>
-                <li>
-                    <Link to="/profile/email" className={`nav-link ${isActive('/profile/email') ? 'active' : ''}`}>Email</Link>
-                </li>
-            </ul>
+
+            <Link to="/profile/username" className={`underline text-xl font-semibold m-2 text-blue-600`}>Username</Link>
+
+            <Link to="/profile/password" className={`underline text-xl font-semibold m-2 text-blue-600`}>Password</Link>
+
+            <Link to="/profile/email" className={`underline text-xl font-semibold m-2 text-blue-600`}>Email</Link>
+
         </div>
     );
 }

@@ -1,7 +1,7 @@
 export default function ProfileUsername() {
     return (
         <div>
-            <h1>Username</h1>
+            <h2 className="h2">Update Username</h2>
         </div>
     );
 }

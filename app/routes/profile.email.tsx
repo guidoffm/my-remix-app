@@ -1,7 +1,7 @@
 export default function ProfileEmail() {
     return (
         <div>
-            <h1>Email</h1>
+            <h2 className="h2">Update Email</h2>
         </div>
     );
 }
