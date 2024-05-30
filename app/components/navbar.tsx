@@ -51,9 +51,6 @@ export default function Navbar({ displayName, userId }: { displayName: string | 
                                 <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'active' : ''}`}>My Page</Link>
                             </li>
                             <li>
-                                <Link to="/upload" className={`nav-link ${isActive('/upload') ? 'active' : ''}`}>Upload</Link>
-                            </li>
-                            <li>
                                 <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>Profile</Link>
                                 <ul>
                                     <li>
