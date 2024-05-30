@@ -22,7 +22,7 @@ export default function Index() {
   const displayName = useLoaderData<typeof loader>();
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Guido's Website</h1>
+      <h1 className="h1">Guido's Website</h1>
       {displayName &&
         <div>
           <MyComp displayName={displayName} />
@@ -30,36 +30,10 @@ export default function Index() {
       }
       {!displayName &&
         <div>
-          <p>Welcome to my website. Please <Link to="/login">log in</Link> to see more.</p>
-          <p>If you do not have an account yet, please <Link to="/register">register</Link>!</p>
+          <p className="mt-4 mb-4 font-normal lg:text-3xl md:text-2xl sm:text-xl text-gray-700">Welcome to my website. Please <Link className="font-extrabold underline" to="/login">log in</Link> to see more.</p>
+          <p className="mt-4 mb-4 font-normal lg:text-3xl md:text-2xl sm:text-xl text-gray-700">If you do not have an account yet, please <Link className="font-extrabold underline" to="/register">register</Link>!</p>
         </div>
       }
-      {/* <h1>Hello {userId}</h1> */}
-      {/* <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul> */}
     </div>
   );
 }
