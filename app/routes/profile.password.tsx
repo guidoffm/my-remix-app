@@ -13,6 +13,18 @@ export default function ProfilePassword() {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [isSubmitDisabled, setSubmitDisabled] = useState(true);
+    const [p1Visible, setP1Visible] = useState(false);
+    const [p2Visible, setP2Visible] = useState(false);
+
+    useEffect(() => {
+        const p1 = password.length < 8;
+        setP1Visible(p1);
+    }, [password]);
+
+    useEffect(() => {
+        const p2 = (password !== '' || password2 !== '') && (password !== password2);
+        setP2Visible(p2);
+    }, [password, password2]);
 
     // const handleSubmit = (event: Event) => {
     //     event.preventDefault();
@@ -30,55 +42,53 @@ export default function ProfilePassword() {
     }, [password, password2]);
 
     return (
-        <div>
+        <div className="w-full max-w-xs">
             <h1>Password</h1>
             <Form method="post"
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    maxWidth: '300px',
-                    margin: '0 auto',
-                    fontFamily: 'sans-serif',
-                    padding: '20px',
-                }}>
+                className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"                >
                 {/* <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Settings for {user.displayName}</h1> */}
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                        New Password
+                        <input
+                            autoFocus
+                            // id="password"
+                            name="password"
+                            // defaultValue={user.displayName}
+                            type="password"
+                            // value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            // minLength={8}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username"
+                        />
+                    </label>
+                    <p id="p1" className={`${p1Visible ? "visible" : "invisible"} text-red-500 text-xs italic`}>Please choose a password (min. 8 chars).</p>
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Repeat Password
+                        <input
+                            name="password2"
+                            // id="password2"
+                            // defaultValue={user.displayName}
+                            type="password"
+                            // value={password2}
+                            onChange={e => setPassword2(e.target.value)}
+                            // minLength={8}
 
-                <label style={{ marginBottom: '10px' }}>
-                    New Password
-                    <input
-                        autoFocus
-                        // id="password"
-                        name="password"
-                        // defaultValue={user.displayName}
-                        type="password"
-                        // value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        // minLength={8}
-                        style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-                    />
-                </label>
-                <label style={{ marginBottom: '10px' }}>
-                    Repeat Password
-                    <input
-                        name="password2"
-                        // id="password2"
-                        // defaultValue={user.displayName}
-                        type="password"
-                        // value={password2}
-                        onChange={e => setPassword2(e.target.value)}
-                        // minLength={8}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username"
+                        />
+                    </label>
+                    <p id="p2" className={`${p2Visible ? "visible" : "invisible"} text-red-500 text-xs italic`}>Passwords do not match.</p>
 
-                        style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-                    />
-                </label>
-
-                <button type="submit"
-                    style={{
-                        padding: '10px',
-                        backgroundColor: isSubmitDisabled ? 'lightgrey' : 'blue',
-                        color: 'white', border: 'none', cursor: 'pointer'
-                    }}
-                    disabled={isSubmitDisabled}>Update Password</button>
+                </div>
+                <div className="flex items-center justify-between">
+                    <button
+                        type="submit"
+                        className={(isSubmitDisabled ? "bg-gray-300" : "bg-blue-500 hover:bg-blue-700") + " text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"}
+                        disabled={isSubmitDisabled}
+                    >Update Password</button>
+                </div>
             </Form>
         </div>
     );
