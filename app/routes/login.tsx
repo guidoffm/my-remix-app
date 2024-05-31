@@ -79,7 +79,11 @@ export default function Login() {
                     <p>Please sign in</p>
                 </div>
                 <label style={{ display: 'flex', flexDirection: 'column' }}>
-                    Username: <input type="text" name="username" style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }} />
+                    Username: <input 
+                    type="text" 
+                    name="username" 
+                    autoFocus
+                    style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }} />
                 </label>
                 <label style={{ display: 'flex', flexDirection: 'column' }}>
                     Password:{" "}
