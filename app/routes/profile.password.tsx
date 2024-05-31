@@ -7,6 +7,7 @@ import { User } from "~/types/user";
 import { createHash } from "crypto";
 import { useEffect, useState } from "react";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
+import { updatePasswordHandler } from "~/services/profile-handlers";
 
 export default function ProfilePassword() {
 
@@ -93,30 +94,4 @@ export default function ProfilePassword() {
     );
 }
 
-export async function action({ request, }: ActionFunctionArgs) {
-
-    const userId = await requireUserId(request);
-
-    const formData = await request.formData();
-    // console.log('formData:', formData);
-    const password = formData.get('password');
-    // console.log('password:', password);
-    const passwordHash = createHash('sha256').update(password as string).digest('hex');
-    const daprClient = new DaprClient();
-    const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
-    console.log('stateGetResult:', stateGetResult);
-    // const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{
-    //     key: userId,
-    //     value: {
-    //         displayName: displayName,
-    //         passwordHash: passwordHash,
-    //     } as User
-    // }]);
-    stateGetResult.passwordHash = passwordHash;
-    const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
-    console.log('stateSaveResult:', stateSaveResult);
-
-    // Login succeeded, send them to the home page.
-    return redirect("/");
-    // return json({ ok: true });
-}
+export const action=updatePasswordHandler;

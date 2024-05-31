@@ -101,5 +101,24 @@ export async function action({ request, params }: ActionFunctionArgs) {
         }
         return json({}, { status: 204 });
     }
+
+    if (request.method === 'POST') {
+        const daprClient = new DaprClient();
+        const body = await request.json();
+        const newUsername = body.newUsername;
+        const data = await daprClient.state.query(stateUserStoreName, {
+
+            filter: {
+                EQ: {
+                    displayName: newUsername
+                }
+            },
+            page: {
+                limit: 100
+            },
+            sort: []
+        });
+        return json({ exists: data.results.length > 0 });
+    }
     return json({}, { status: 400 });
 }
