@@ -23,7 +23,7 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
             <button className="hidden max-sm:block text-4xl" onClick={() => setIsOpen(!isOpen)}>
                 ☰
             </button>
-            <nav className={`bg-orange-200 w-10/12 mx-auto my-0 ${isOpen ? 'flex flex-col items-start' : 'max-sm:hidden'}`}>
+            <nav className={`bg-orange-200 w-10/12 mx-auto my-0 p-2 ${isOpen ? 'flex flex-col items-start' : 'max-sm:hidden'}`}>
                 <ul className="sm:hidden list-none place-content-around p-0 md:flex xl:flex-row">
                     <li>
                         <div className="flex">
