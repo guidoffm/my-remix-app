@@ -43,60 +43,61 @@ export default function AdminUser() {
     };
 
     const deleteUser = async (key: string) => {
-        console.log(`deleteUser("${key}")`);
-        await fetch('/api/user', {
-            method: 'DELETE',
-            body: JSON.stringify({
-                id: key
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        // revalidator.revalidate();
-        navigate('/admin/users');
+        if (confirm(`Are you sure you want to delete user "${user.displayName}"?`)) {
+            console.log(`deleteUser("${key}")`);
+            await fetch('/api/user', {
+                method: 'DELETE',
+                body: JSON.stringify({
+                    id: key
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            // revalidator.revalidate();
+            navigate('/admin/users');
+        }
     };
 
     return (
         <div>
-            <h1>User "{user.displayName}"</h1>
-            <p>Welcome to the admin user page.</p>
-            <table>
+            <h2 className="h2">User "{user.displayName}"</h2>
+            <table className="table border-collapse border border-black">
                 <tbody>
-                    <tr>
-                        <th scope="row">displayName</th>
-                        <td>{user.displayName}</td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">displayName</th>
+                        <td className="p-1">{user.displayName}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">email</th>
-                        <td>{user.email}</td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">email</th>
+                        <td className="p-1">{user.email}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">emailVerified</th>
-                        <td><CheckboxFromBoolean value={user.emailVerified} /></td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">emailVerified</th>
+                        <td className="p-1"><CheckboxFromBoolean value={user.emailVerified} /></td>
                     </tr>
-                    <tr>
-                        <th scope="row">emailVerificationCode</th>
-                        <td>{user.emailVerificationCode}</td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">emailVerificationCode</th>
+                        <td className="p-1">{user.emailVerificationCode}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">emailVerificationCodeCreatedAt</th>
-                        <td><DateFromNumber number={user.emailVerificationCodeCreatedAt} /></td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">emailVerificationCodeCreatedAt</th>
+                        <td className="p-1"><DateFromNumber number={user.emailVerificationCodeCreatedAt} /></td>
                     </tr>
-                    <tr>
-                        <th scope="row">pendingEmail</th>
-                        <td>{user.pendingEmail}</td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">pendingEmail</th>
+                        <td className="p-1">{user.pendingEmail}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">is Admin</th>
-                        <td><CheckboxFromBoolean value={user.roles && user.roles.includes('admin')} /></td>
+                    <tr className="border border-black">
+                        <th scope="row" className="text-left p-1 border border-black">is Admin</th>
+                        <td className="p-1"><CheckboxFromBoolean value={user.roles && user.roles.includes('admin')} /></td>
                     </tr>
                 </tbody>
             </table>
             <div>
-                <button className="m-2 p-1 border-2 border-black shadow rounded bg-gray-300 font-semibold" type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
-                <button className="m-2 p-1 border-2 border-black shadow rounded bg-gray-300 font-semibold" type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
-                <button className="m-2 p-1 border-2 border-black shadow rounded bg-gray-300 font-semibold" type="button" onClick={() => deleteUser(user.key)}>Delete User</button>
+                <button className="m-2 p-3 shadow rounded-lg bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 font-medium" type="button" onClick={() => grantAdmin(user.key, true)}>Grant Admin role</button>
+                <button className="m-2 p-3 shadow rounded-lg bg-yellow-500 text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50 font-medium" type="button" onClick={() => grantAdmin(user.key, false)}>Revoke Admin role</button>
+                <button className="m-2 p-3 shadow rounded-lg bg-red-500 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 font-medium" type="button" onClick={() => deleteUser(user.key)}>Delete User</button>
             </div>
         </div>
     );

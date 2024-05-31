@@ -1,7 +1,7 @@
 export default function MyComp({ displayName }: { displayName: string }) {
     return (
         <div>
-            <h1>Hello {displayName}!</h1>
+            <h2 className="h2">Hello {displayName}!</h2>
         </div>
     );
 }

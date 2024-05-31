@@ -3,14 +3,14 @@ import { Link, useLoaderData } from "@remix-run/react";
 import MyComp from "~/components/my-comp";
 import { getSession } from "~/services/sessions";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Guido's Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+// export const meta: MetaFunction = () => {
+//   return [
+//     { title: "Guido's Remix App" },
+//     { name: "description", content: "Welcome to Remix!" },
+//   ];
+// };
 
-export let loader: LoaderFunction = async ({ request, context, params }) => {
+export let loader: LoaderFunction = async ({ request, context, params }): Promise<string | null> => {
   const session = await getSession(
     request.headers.get("Cookie")
   );
@@ -34,6 +34,7 @@ export default function Index() {
           <p className="mt-4 mb-4 font-normal lg:text-3xl md:text-2xl sm:text-xl text-gray-700">If you do not have an account yet, please <Link className="font-extrabold underline" to="/register">register</Link>!</p>
         </div>
       }
+
     </div>
   );
 }
