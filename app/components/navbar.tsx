@@ -1,6 +1,5 @@
 import { Link, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
-// import "../styles/navbar.css";
 
 export default function Navbar({ displayName, userId, isAdmin }: { displayName: string | null, userId: string | null, isAdmin: boolean }) {
     const [isOpen, setIsOpen] = useState(false);
