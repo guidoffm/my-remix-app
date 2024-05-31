@@ -1,6 +1,6 @@
 import { Link, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import "../styles/navbar.css";
+// import "../styles/navbar.css";
 
 export default function Navbar({ displayName, userId, isAdmin }: { displayName: string | null, userId: string | null, isAdmin: boolean }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,20 +20,22 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
 
     return (
         <header className="header">
-            <button className="burger" onClick={() => setIsOpen(!isOpen)}>
+            <button className="hidden max-sm:block text-4xl" onClick={() => setIsOpen(!isOpen)}>
                 ☰
             </button>
-            <nav className={`nav ${isOpen ? 'open' : ''}`}>
-                <ul className="nav-list">
+            <nav className={`bg-orange-200 w-10/12 mx-auto my-0 ${isOpen ? 'flex flex-col items-start' : 'max-sm:hidden'}`}>
+                <ul className="sm:hidden list-none place-content-around p-0 md:flex xl:flex-row">
                     <li>
-                        {displayName ? `Hello ${displayName}` : ''}
+                        <div className="flex">
+                            <div className="italic text-3xl items-center text-green-800"> {displayName ? `Hello ${displayName}` : ''}</div>
+                        </div>
                     </li>
                     <li>
-                        <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
+                        <Link to="/" className={`nav-link ${isActive('/') ? 'font-bold' : ''}`}>Home</Link>
                     </li>
                     {!userId &&
                         <li>
-                            <Link to="/login" className={`nav-link ${isActive('/login') ? 'active' : ''}`}>Login</Link>
+                            <Link to="/login" className={`nav-link ${isActive('/login') ? 'font-bold' : ''}`}>Login</Link>
                         </li>
                     }
                     {userId &&
@@ -48,34 +50,34 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
                                 <Link to="/foo/baz" className={`nav-link ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
                             </li> */}
                             <li>
-                                <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'active' : ''}`}>My Page</Link>
+                                <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'font-bold' : ''}`}>My Page</Link>
                             </li>
                             <li>
-                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>Profile</Link>
+                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'font-bold' : ''}`}>Profile</Link>
                                 <ul>
                                     <li>
-                                        <Link to="/profile/username" className={`nav-link ${isActive('/profile/username') ? 'active' : ''}`}>Username</Link>
+                                        <Link to="/profile/username" className={`nav-link ${isActive('/profile/username') ? 'font-bold' : ''}`}>Username</Link>
                                     </li>
                                     <li>
-                                        <Link to="/profile/password" className={`nav-link ${isActive('/profile/password') ? 'active' : ''}`}>Password</Link>
+                                        <Link to="/profile/password" className={`nav-link ${isActive('/profile/password') ? 'font-bold' : ''}`}>Password</Link>
                                     </li>
                                     <li>
-                                        <Link to="/profile/email" className={`nav-link ${isActive('/profile/email') ? 'active' : ''}`}>Email</Link>
+                                        <Link to="/profile/email" className={`nav-link ${isActive('/profile/email') ? 'font-bold' : ''}`}>Email</Link>
                                     </li>
                                 </ul>
                             </li>
                             {isAdmin && <li>
-                                <Link to="/admin" className={`nav-link ${isActive('/admin') ? 'active' : ''}`}>Admin</Link>
+                                <Link to="/admin" className={`nav-link ${isActive('/admin') ? 'font-bold' : ''}`}>Admin</Link>
                             </li>
                             }
                             <li>
-                                <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'active' : ''}`}>Logout</Link>
+                                <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'font-bold' : ''}`}>Logout</Link>
                             </li>
                         </>
                     }
 
                     <li>
-                        <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</Link>
+                        <Link to="/about" className={`nav-link ${isActive('/about') ? 'font-bold' : ''}`}>About</Link>
                     </li>
 
                 </ul>
