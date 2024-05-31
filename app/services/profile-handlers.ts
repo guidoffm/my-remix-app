@@ -22,7 +22,7 @@ export async function updateUsernameHandler({ request, }: ActionFunctionArgs) {
     const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
     console.log('stateSaveResult:', stateSaveResult);
     session.set('displayName', newUsername);
-    return redirect("/", {
+    return redirect("/username-updated", {
         headers: {
             "Set-Cookie": await destroySession(session),
         },
