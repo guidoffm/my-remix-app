@@ -31,53 +31,53 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
                         </div>
                     </li>
                     <li>
-                        <Link to="/" className={`nav-link ${isActive('/') ? 'font-bold' : ''}`}>Home</Link>
+                        <Link to="/" className={` hover:text-gray-800 ${isActive('/') ? 'font-bold text-black' : 'text-gray-500'}`}>Home</Link>
                     </li>
                     {!userId &&
                         <li>
-                            <Link to="/login" className={`nav-link ${isActive('/login') ? 'font-bold' : ''}`}>Login</Link>
+                            <Link to="/login" className={`hover:text-gray-800 ${isActive('/login') ? 'font-bold text-black' : 'text-gray-500'}`}>Login</Link>
                         </li>
                     }
                     {userId &&
                         <>
                             {/* <li>
-                                <Link to="/foo" className={`nav-link ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
+                                <Link to="/foo" className={`hover:text-gray-800 ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
                             </li>
                             <li>
-                                <Link to="/foo/bar" className={`nav-link ${isActive('/foo/bar') ? 'active' : ''}`}>Foo Bar</Link>
+                                <Link to="/foo/bar" className={`hover:text-gray-800 ${isActive('/foo/bar') ? 'active' : ''}`}>Foo Bar</Link>
                             </li>
                             <li>
-                                <Link to="/foo/baz" className={`nav-link ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
+                                <Link to="/foo/baz" className={`hover:text-gray-800 ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
                             </li> */}
                             <li>
-                                <Link to="/mypage" className={`nav-link ${isActive('/mypage') ? 'font-bold' : ''}`}>My Page</Link>
+                                <Link to="/mypage" className={`hover:text-gray-800 ${isActive('/mypage') ? 'font-bold text-black' : 'text-gray-500'}`}>My Page</Link>
                             </li>
                             <li>
-                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'font-bold' : ''}`}>Profile</Link>
+                                <Link to="/profile" className={`hover:text-gray-800 ${isActive('/profile') ? 'font-bold text-black' : 'text-gray-500'}`}>Profile</Link>
                                 <ul>
                                     <li>
-                                        <Link to="/profile/username" className={`nav-link ${isActive('/profile/username') ? 'font-bold' : ''}`}>Username</Link>
+                                        <Link to="/profile/username" className={`hover:text-gray-800 ${isActive('/profile/username') ? 'font-bold text-black' : 'text-gray-500'}`}>Username</Link>
                                     </li>
                                     <li>
-                                        <Link to="/profile/password" className={`nav-link ${isActive('/profile/password') ? 'font-bold' : ''}`}>Password</Link>
+                                        <Link to="/profile/password" className={`hover:text-gray-800 ${isActive('/profile/password') ? 'font-bold text-black' : 'text-gray-500'}`}>Password</Link>
                                     </li>
                                     <li>
-                                        <Link to="/profile/email" className={`nav-link ${isActive('/profile/email') ? 'font-bold' : ''}`}>Email</Link>
+                                        <Link to="/profile/email" className={`hover:text-gray-800 ${isActive('/profile/email') ? 'font-bold text-black' : 'text-gray-500'}`}>Email</Link>
                                     </li>
                                 </ul>
                             </li>
                             {isAdmin && <li>
-                                <Link to="/admin" className={`nav-link ${isActive('/admin') ? 'font-bold' : ''}`}>Admin</Link>
+                                <Link to="/admin" className={`hover:text-gray-800 ${isActive('/admin') ? 'font-bold text-black' : 'text-gray-500'}`}>Admin</Link>
                             </li>
                             }
                             <li>
-                                <Link to="/logout" className={`nav-link ${isActive('/logout') ? 'font-bold' : ''}`}>Logout</Link>
+                                <Link to="/logout" className={`hover:text-gray-800 ${isActive('/logout') ? 'font-bold text-black' : 'text-gray-500'}`}>Logout</Link>
                             </li>
                         </>
                     }
 
                     <li>
-                        <Link to="/about" className={`nav-link ${isActive('/about') ? 'font-bold' : ''}`}>About</Link>
+                        <Link to="/about" className={`hover:text-gray-800 ${isActive('/about') ? 'font-bold text-black' : 'text-gray-500'}`}>About</Link>
                     </li>
 
                 </ul>
