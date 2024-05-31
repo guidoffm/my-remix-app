@@ -53,7 +53,7 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
                             </li>
                             <li>
                                 <Link to="/profile" className={`hover:text-gray-800 ${isActive('/profile') ? 'font-bold text-black' : 'text-gray-500'}`}>Profile</Link>
-                                <ul>
+                                {/* <ul>
                                     <li>
                                         <Link to="/profile/username" className={`hover:text-gray-800 ${isActive('/profile/username') ? 'font-bold text-black' : 'text-gray-500'}`}>Username</Link>
                                     </li>
@@ -63,7 +63,7 @@ export default function Navbar({ displayName, userId, isAdmin }: { displayName: 
                                     <li>
                                         <Link to="/profile/email" className={`hover:text-gray-800 ${isActive('/profile/email') ? 'font-bold text-black' : 'text-gray-500'}`}>Email</Link>
                                     </li>
-                                </ul>
+                                </ul> */}
                             </li>
                             {isAdmin && <li>
                                 <Link to="/admin" className={`hover:text-gray-800 ${isActive('/admin') ? 'font-bold text-black' : 'text-gray-500'}`}>Admin</Link>
