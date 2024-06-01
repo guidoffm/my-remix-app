@@ -12,11 +12,12 @@ export default function Register() {
     const [displayNameError, setDisplayNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [passwordMatchError, setPasswordMatchError] = useState('');
+    const [isUsernameTaken, setIsUsernameTaken] = useState(false);
 
     useEffect(() => {
         const res = password === '' || password2 === '' || passwordError !== '' ||
             passwordMatchError !== '' || email === '' || displayName === '' ||
-            displayNameError !== '' || emailError !== '';
+            displayNameError !== '' || emailError !== '' || isUsernameTaken;
         setSubmitDisabled(res);
     }, [password, password2]);
 
@@ -53,6 +54,22 @@ export default function Register() {
         }
     }, [password, password2]);
 
+    const setNewUsername1 = async (newName: string) => {
+        setDisplayName(newName);
+        const res = await fetch('/api/user', {
+            method: 'POST',
+            body: JSON.stringify({ newUsername: newName }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        console.log('data:', data);
+
+        setIsUsernameTaken(data.exists);
+
+    }
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <h1 className="text-4xl font-bold mb-8">Register as new user</h1>
@@ -78,9 +95,10 @@ export default function Register() {
                             type="text"
                             name="displayName"
                             required
-                            onChange={e => setDisplayName(e.target.value)}
+                            onChange={e => setNewUsername1(e.target.value)}
                         />
                         {displayNameError && <p className="text-red-500">{displayNameError}</p>}
+                        {isUsernameTaken && <p className="text-red-500">This username is already taken.</p>}
                     </label>
                     <label className="block">
                         Password:
