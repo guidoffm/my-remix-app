@@ -8,10 +8,49 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [isSubmitDisabled, setSubmitDisabled] = useState(true);
+    const [emailError, setEmailError] = useState('');
+    const [displayNameError, setDisplayNameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordMatchError, setPasswordMatchError] = useState('');
 
     useEffect(() => {
-        const res = password === '' || password2 === '' || password.length < 8 || password !== password2;
+        const res = password === '' || password2 === '' || passwordError !== '' ||
+            passwordMatchError !== '' || email === '' || displayName === '' ||
+            displayNameError !== '' || emailError !== '';
         setSubmitDisabled(res);
+    }, [password, password2]);
+
+    useEffect(() => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setEmailError('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+        } else {
+            setEmailError('');
+        }
+    }, [email]);
+
+    useEffect(() => {
+        if (displayName.length < 8) {
+            setDisplayNameError('Der Benutzername muss mindestens 8 Zeichen lang sein.');
+        } else {
+            setDisplayNameError('');
+        }
+    }, [displayName]);
+
+    useEffect(() => {
+        if (password.length < 8) {
+            setPasswordError('Das Passwort muss mindestens 8 Zeichen lang sein.');
+        } else {
+            setPasswordError('');
+        }
+    }, [password]);
+
+    useEffect(() => {
+        if (password !== password2) {
+            setPasswordMatchError('Die Passwörter stimmen nicht überein.');
+        } else {
+            setPasswordMatchError('');
+        }
     }, [password, password2]);
 
     return (
@@ -29,6 +68,8 @@ export default function Register() {
                             required
                             onChange={e => setEmail(e.target.value)}
                         />
+                        {emailError && <p className="text-red-500">{emailError}</p>}
+
                     </label>
                     <label className="block">
                         User Name:
@@ -39,6 +80,7 @@ export default function Register() {
                             required
                             onChange={e => setDisplayName(e.target.value)}
                         />
+                        {displayNameError && <p className="text-red-500">{displayNameError}</p>}
                     </label>
                     <label className="block">
                         Password:
@@ -49,6 +91,7 @@ export default function Register() {
                             required
                             onChange={e => setPassword(e.target.value)}
                         />
+                        {passwordError && <p className="text-red-500">{passwordError}</p>}
                     </label>
                     <label className="block">
                         Password (repeat):
@@ -59,6 +102,7 @@ export default function Register() {
                             required
                             onChange={e => setPassword2(e.target.value)}
                         />
+                        {passwordMatchError && <p className="text-red-500">{passwordMatchError}</p>}
                     </label>
                     <button
                         type="submit"
