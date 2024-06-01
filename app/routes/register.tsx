@@ -1,5 +1,4 @@
 import { Form } from "@remix-run/react";
-import "../styles/register.css"
 import { useState, useEffect } from "react";
 import { registrationHandler } from "~/services/registration-handler";
 
@@ -16,14 +15,14 @@ export default function Register() {
     }, [password, password2]);
 
     return (
-        <div className="outer">
-            <h1>Register as new user</h1>
-            <div className="inner">
-                <Form method="post">
-                    <label>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            <h1 className="text-4xl font-bold mb-8">Register as new user</h1>
+            <div className="flex flex-col items-center justify-center bg-white p-8 rounded shadow-lg w-full max-w-xl">
+                <Form method="post" className="w-full">
+                    <label className="block">
                         Email:
                         <input
-                            className="input"
+                            className="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             autoFocus
                             type="email"
                             name="email"
@@ -31,30 +30,30 @@ export default function Register() {
                             onChange={e => setEmail(e.target.value)}
                         />
                     </label>
-                    <label>
+                    <label className="block">
                         User Name:
                         <input
-                            className="input"
+                            className="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             type="text"
                             name="displayName"
                             required
                             onChange={e => setDisplayName(e.target.value)}
                         />
                     </label>
-                    <label>
+                    <label className="block">
                         Password:
                         <input
-                            className="input"
+                            className="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             type="password"
                             name="password"
                             required
                             onChange={e => setPassword(e.target.value)}
                         />
                     </label>
-                    <label>
+                    <label className="block">
                         Password (repeat):
                         <input
-                            className="input"
+                            className="p-1 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             type="password"
                             name="password2"
                             required
@@ -63,9 +62,7 @@ export default function Register() {
                     </label>
                     <button
                         type="submit"
-                        style={{
-                            backgroundColor: isSubmitDisabled ? 'lightgrey' : 'blue'
-                        }}
+                        className={`mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitDisabled ? 'bg-gray-300' : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'}`}
                         disabled={isSubmitDisabled}>Register</button>
                 </Form>
             </div>
