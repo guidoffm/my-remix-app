@@ -73,12 +73,12 @@ export async function action({ request, params }: ActionFunctionArgs) {
         console.log('ids:', ids);
 
         for (const imageid of ids) {
-            try {
-                const getResult = await daprClient.binding.send(bindingFilesStoreName, 'get', undefined, { key: imageid });
-                console.log('getResult:', (getResult as unknown as string).length);
-            } catch (error) {
-                console.log('error:', error);
-            }
+            // try {
+            //     const getResult = await daprClient.binding.send(bindingFilesStoreName, 'get', undefined, { key: imageid });
+            //     console.log('getResult:', (getResult as unknown as string).length);
+            // } catch (error) {
+            //     console.log('error:', error);
+            // }
             try {
                 const bindingDeleteResult = await daprClient.binding.send(bindingFilesStoreName, 'delete', undefined, { key: imageid });
                 console.log('bindingDeleteResult:', bindingDeleteResult);

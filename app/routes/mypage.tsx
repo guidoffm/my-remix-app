@@ -1,12 +1,11 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import MyImage from "~/components/my-image";
 import UploadForm from "~/components/upload-form";
 import { requireUserId } from "~/services/sessions";
 import uploadHandler from "~/services/upload-handler";
 import { stateFilesStoreName } from "~/types/constants";
+import { useLoaderData, useRevalidator } from "@remix-run/react";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
 
@@ -31,6 +30,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
 };
 
 export default function MyPage() {
+    const revalidator = useRevalidator();
     const imageKeys = useLoaderData<typeof loader>();
     const [imagesAvailable, setImagesAvailable] = useState(false);
     const [viewMode, setViewMode] = useState('gallery');
@@ -49,8 +49,22 @@ export default function MyPage() {
         }
     }, [imageKeys]);
 
-    const handleDelete = (imageKey: string) => {
+    const handleDelete = async (imageKey: string) => {
         console.log(`Deleting image ${imageKey}`);
+        if (confirm(`Are you sure you want to delete that image?`)) {
+            console.log(`deleteImage("${imageKey}")`);
+            await fetch('/api/image', {
+                method: 'DELETE',
+                body: JSON.stringify({
+                    id: imageKey
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            revalidator.revalidate();
+            // navigate('/admin/users');
+        }
     };
 
     return (
@@ -69,7 +83,7 @@ export default function MyPage() {
                 <div className={"grid grid-cols-8 gap-4"}>
                     {(imageKeys as string[]).map((x) => (
                         // <MyImage key={x} imageid={x} className="h-50"></MyImage>
-                        <a href={`/image/${x}`} target="_blank">
+                        <a key={x} href={`/image/${x}`} target="_blank">
                             <img src={`/image/${x}`} alt={`image-${x}`} className="w-40 h-40" />
                         </a>
                     ))}
