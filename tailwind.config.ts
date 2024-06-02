@@ -6,5 +6,9 @@ export default {
     extend: {},
   },
   plugins: [],
+  corePlugins: {
+    preflight: false, // this removes the default styles
+ }
+ 
 } satisfies Config
 
