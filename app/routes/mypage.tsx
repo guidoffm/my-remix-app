@@ -33,7 +33,7 @@ export default function MyPage() {
     const revalidator = useRevalidator();
     const imageKeys = useLoaderData<typeof loader>();
     const [imagesAvailable, setImagesAvailable] = useState(false);
-    const [viewMode, setViewMode] = useState('gallery');
+    const [viewMode, setViewMode] = useState<'gallery' | 'list'>('gallery');
 
     const handleGalleryView = () => {
         setViewMode('gallery');
@@ -93,13 +93,13 @@ export default function MyPage() {
                 <div>
                     <table className="border border-black">
                         <tbody>
-                            {(imageKeys as string[]).map((x) => (
-                                <tr key={x} className="border border-black">
+                            {(imageKeys as string[]).map((imageId) => (
+                                <tr key={imageId} className="border border-black">
                                     <td className="p-4 border border-black w-44">
-                                        <img src={`/image/${x}`} alt={`image-${x}`} className={"w-40 h-40"} />
+                                        <img src={`/image/${imageId}`} alt={`image-${imageId}`} className={"w-40 h-40"} />
                                     </td>
                                     <td className="p-4 border border-black">
-                                        <button onClick={() => handleDelete(x)}>Delete</button>
+                                        <button onClick={() => handleDelete(imageId)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
