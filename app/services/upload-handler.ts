@@ -6,7 +6,7 @@ import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 
 
-export const uploadHandler = async ({ request, }: ActionFunctionArgs) => {
+export async function uploadHandler({ request, }: ActionFunctionArgs) {
 
     const userId = await requireUserId(request);
 
@@ -43,4 +43,4 @@ export const uploadHandler = async ({ request, }: ActionFunctionArgs) => {
     console.log('saveStateResult:', saveStateResult);
 
     return json({ ok: true });
-};
+}

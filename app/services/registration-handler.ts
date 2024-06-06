@@ -5,7 +5,7 @@ import { User } from "~/types/user";
 import { v4 as uuidv4 } from 'uuid';
 import { createHash } from "crypto";
 
-export const registrationHandler = async ({ request, }: ActionFunctionArgs) => {
+export async function registrationHandler({ request, }: ActionFunctionArgs) {
     try {
         const userId = uuidv4();
         const formData = await request.formData();
@@ -41,7 +41,7 @@ export const registrationHandler = async ({ request, }: ActionFunctionArgs) => {
             `Please click on the following link to verify your email: ${rootUrl}/verify/${emailVerificationCode}`, {
             emailTo: pendingEmail,
             subject: "Verify your email address",
-        })
+        });
         // Login succeeded, send them to the home page.
         return redirect("/usercreated");
         // return json({ ok: true });
