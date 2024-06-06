@@ -1,4 +1,4 @@
-export default function CheckboxFromBoolean({ value, onChange }: { value: boolean | undefined, onChange?: (value: boolean) => void }) {
+export function CheckboxFromBoolean({ value, onChange }: { value: boolean | undefined, onChange?: (value: boolean) => void }) {
     return (
         <input
             type="checkbox"

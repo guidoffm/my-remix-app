@@ -1,8 +1,8 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import CheckboxFromBoolean from "~/components/checkbox-from-boolean";
-import DateFromNumber from "~/components/date-from-number";
+import { CheckboxFromBoolean } from "~/components/checkbox-from-boolean";
+import { DateFromNumber } from "~/components/date-from-number";
 import { getSession } from "~/services/sessions";
 import { stateUsersName } from "~/types/constants";
 import { User, UserWithKey } from "~/types/user";

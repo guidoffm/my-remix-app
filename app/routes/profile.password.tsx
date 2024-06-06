@@ -1,12 +1,5 @@
-import { DaprClient } from "@dapr/dapr";
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-import { requireUserId } from "~/services/sessions";
-import { stateUsersName } from "~/types/constants";
-import { User } from "~/types/user";
-import { createHash } from "crypto";
 import { useEffect, useState } from "react";
-import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
 import { updatePasswordHandler } from "~/services/profile-handlers";
 
 export default function ProfilePassword() {
@@ -94,4 +87,4 @@ export default function ProfilePassword() {
     );
 }
 
-export const action=updatePasswordHandler;
+export const action = updatePasswordHandler;

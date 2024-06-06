@@ -7,7 +7,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import stylesheet from "./styles/tailwind.css?url";
-import Navbar from "./components/navbar";
+import { Navbar } from "./components/navbar";
 import { LinksFunction, LoaderFunction, json } from "@remix-run/node";
 import { getSession } from "./services/sessions";
 
