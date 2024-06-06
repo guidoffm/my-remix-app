@@ -1,4 +1,4 @@
-export default function UploadForm() {
+export const UploadForm = () => {
     return (
         <div className="w-full max-w-xl mt-2">
             <form method="post" encType="multipart/form-data" className="bg-gray-100 shadow-md rounded px-8 pt-8 pb-8 mb-4">

@@ -1,9 +1,9 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
-import UploadForm from "~/components/upload-form";
+import { UploadForm } from "~/components/upload-form";
 import { requireUserId } from "~/services/sessions";
-import uploadHandler from "~/services/upload-handler";
+import { uploadHandler } from "~/services/upload-handler";
 import { stateFilesName } from "~/types/constants";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
 

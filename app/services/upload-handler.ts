@@ -6,7 +6,7 @@ import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 
 
-export default async function uploadHandler({ request, }: ActionFunctionArgs) {
+export const uploadHandler = async ({ request, }: ActionFunctionArgs) => {
 
     const userId = await requireUserId(request);
 

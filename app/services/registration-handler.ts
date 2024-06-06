@@ -5,7 +5,7 @@ import { User } from "~/types/user";
 import { v4 as uuidv4 } from 'uuid';
 import { createHash } from "crypto";
 
-export async function registrationHandler({ request, }: ActionFunctionArgs) {
+export const registrationHandler = async ({ request, }: ActionFunctionArgs) => {
     try {
         const userId = uuidv4();
         const formData = await request.formData();
