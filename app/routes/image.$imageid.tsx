@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { getSession } from "~/services/sessions";
-import { bindingFilesStoreName, stateFilesStoreName } from "~/types/constants";
+import { bindingFilesName, stateFilesName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 
 export async function loader({ request,
@@ -23,7 +23,7 @@ export async function loader({ request,
         });
     }
 
-    const stateGetResult = await daprClient.state.get(stateFilesStoreName, imageid) as ImageState;
+    const stateGetResult = await daprClient.state.get(stateFilesName, imageid) as ImageState;
 
     if (!stateGetResult) {
         return new Response("No image found", {
@@ -37,7 +37,7 @@ export async function loader({ request,
         });
     }
 
-    const getResult = await daprClient.binding.send(bindingFilesStoreName, 'get', undefined, { key: imageid });
+    const getResult = await daprClient.binding.send(bindingFilesName, 'get', undefined, { key: imageid });
     const decodedBuffer = Buffer.from(getResult as unknown as string, 'base64');
     return new Response(decodedBuffer, {
         status: 200,

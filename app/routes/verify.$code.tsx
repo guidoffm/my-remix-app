@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 
 
@@ -11,7 +11,7 @@ export async function loader({ request,
     const daprClient = new DaprClient();
 
     const { code } = params;
-    const data = await daprClient.state.query(stateUserStoreName, {
+    const data = await daprClient.state.query(stateUsersName, {
         filter: {
             EQ: { emailVerificationCode: code }
         },
@@ -33,7 +33,7 @@ export async function loader({ request,
 
     // check if the code is expired
     if (user.emailVerificationCodeCreatedAt && user.emailVerificationCodeCreatedAt + 1000 * 3600 < Date.now()) {
-        await daprClient.state.delete(stateUserStoreName, userId);
+        await daprClient.state.delete(stateUsersName, userId);
         return new Response("Code expired", {
             status: 400,
         });
@@ -46,7 +46,7 @@ export async function loader({ request,
     user.emailVerificationCode = undefined;
     user.emailVerificationCodeCreatedAt = undefined;
 
-    await daprClient.state.save(stateUserStoreName, [{
+    await daprClient.state.save(stateUsersName, [{
         key: userId,
         value: user
     }]);

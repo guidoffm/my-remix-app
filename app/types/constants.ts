@@ -1,4 +1,5 @@
-export const bindingFilesStoreName = 'minio';
-export const stateFilesStoreName = 'files';
-export const stateUserStoreName = 'users';
-export const stateProfileStoreName = 'profile';
+export const bindingFilesName = 'minio';
+export const bindingSmtpName = 'smtp';
+export const stateFilesName = 'files';
+export const stateUsersName = 'users';
+export const stateProfileName = 'profile';

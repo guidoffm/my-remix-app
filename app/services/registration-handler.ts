@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
-import { stateUserStoreName } from "~/types/constants";
+import { bindingSmtpName, stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 import { v4 as uuidv4 } from 'uuid';
 import { createHash } from "crypto";
@@ -19,7 +19,7 @@ export async function registrationHandler({ request, }: ActionFunctionArgs) {
         // console.log('stateGetResult:', stateGetResult);
         const emailVerificationCode = uuidv4();
         const pendingEmail = formData.get("email") as string;
-        const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{
+        const stateSaveResult = await daprClient.state.save(stateUsersName, [{
             key: userId,
             value: {
                 displayName: formData.get("displayName"),
@@ -37,7 +37,7 @@ export async function registrationHandler({ request, }: ActionFunctionArgs) {
         console.log('stateSaveResult:', stateSaveResult);
         // get the root url of the page
         const rootUrl = request.url.split('/register')[0];
-        daprClient.binding.send('smtp', 'create',
+        daprClient.binding.send(bindingSmtpName, 'create',
             `Please click on the following link to verify your email: ${rootUrl}/verify/${emailVerificationCode}`, {
             emailTo: pendingEmail,
             subject: "Verify your email address",

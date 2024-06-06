@@ -2,7 +2,7 @@ import { DaprClient } from "@dapr/dapr";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { getUserId } from "~/services/sessions";
-import { bindingFilesStoreName, stateFilesStoreName, stateUserStoreName } from "~/types/constants";
+import { bindingFilesName, stateFilesName, stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 
 // export async function loader({
@@ -39,11 +39,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const body = await request.json();
         const userId = body.id;
         const roles = body.roles;
-        const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
+        const stateGetResult = await daprClient.state.get(stateUsersName, userId) as KeyValueType;
         // console.log('stateGetResult:', stateGetResult);
         stateGetResult.roles = roles;
         // stateGetResult.passwordHash = passwordHash;
-        const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
+        const stateSaveResult = await daprClient.state.save(stateUsersName, [{ key: userId, value: stateGetResult as User }]);
         // console.log('stateSaveResult:', stateSaveResult);
         return json({}, { status: 204 });
     }
@@ -53,7 +53,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const body = await request.json();
         const userId = body.id;
 
-        const data = await daprClient.state.query(stateFilesStoreName, {
+        const data = await daprClient.state.query(stateFilesName, {
 
             filter: {
                 EQ: {
@@ -80,13 +80,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
             //     console.log('error:', error);
             // }
             try {
-                const bindingDeleteResult = await daprClient.binding.send(bindingFilesStoreName, 'delete', undefined, { key: imageid });
+                const bindingDeleteResult = await daprClient.binding.send(bindingFilesName, 'delete', undefined, { key: imageid });
                 console.log('bindingDeleteResult:', bindingDeleteResult);
             } catch (error) {
                 console.log('error:', error);
             }
             try {
-                const stateDeleteResult = await daprClient.state.delete(stateFilesStoreName, imageid);
+                const stateDeleteResult = await daprClient.state.delete(stateFilesName, imageid);
                 console.log('stateDeleteResult:', stateDeleteResult);
             } catch (error) {
                 console.log('error:', error);
@@ -94,7 +94,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         }
 
         try {
-            const stateDeleteResult = await daprClient.state.delete(stateUserStoreName, userId);
+            const stateDeleteResult = await daprClient.state.delete(stateUsersName, userId);
             console.log('stateDeleteResult:', stateDeleteResult);
         } catch (error) {
             console.log('error:', error);
@@ -106,7 +106,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const daprClient = new DaprClient();
         const body = await request.json();
         const newUsername = body.newUsername;
-        const data = await daprClient.state.query(stateUserStoreName, {
+        const data = await daprClient.state.query(stateUsersName, {
 
             filter: {
                 EQ: {

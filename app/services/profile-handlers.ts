@@ -2,7 +2,7 @@ import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { destroySession, getSession, requireUserId } from "./sessions";
 import { DaprClient } from "@dapr/dapr";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 import { createHash } from "crypto";
 
@@ -16,10 +16,10 @@ export async function updateUsernameHandler({ request, }: ActionFunctionArgs) {
         throw new Error('No new username provided');
     }
     const daprClient = new DaprClient();
-    const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
+    const stateGetResult = await daprClient.state.get(stateUsersName, userId) as KeyValueType;
     // console.log('stateGetResult:', stateGetResult);
     stateGetResult.displayName = newUsername;
-    const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
+    const stateSaveResult = await daprClient.state.save(stateUsersName, [{ key: userId, value: stateGetResult as User }]);
     console.log('stateSaveResult:', stateSaveResult);
     session.set('displayName', newUsername);
     return redirect("/username-updated", {
@@ -38,7 +38,7 @@ export async function updatePasswordHandler({ request, }: ActionFunctionArgs) {
     // console.log('password:', password);
     const passwordHash = createHash('sha256').update(password as string).digest('hex');
     const daprClient = new DaprClient();
-    const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
+    const stateGetResult = await daprClient.state.get(stateUsersName, userId) as KeyValueType;
     // console.log('stateGetResult:', stateGetResult);
     // const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{
     //     key: userId,
@@ -48,7 +48,7 @@ export async function updatePasswordHandler({ request, }: ActionFunctionArgs) {
     //     } as User
     // }]);
     stateGetResult.passwordHash = passwordHash;
-    const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
+    const stateSaveResult = await daprClient.state.save(stateUsersName, [{ key: userId, value: stateGetResult as User }]);
     console.log('stateSaveResult:', stateSaveResult);
 
     // Login succeeded, send them to the home page.

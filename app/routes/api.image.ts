@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { getUserId } from "~/services/sessions";
-import { bindingFilesStoreName, stateFilesStoreName } from "~/types/constants";
+import { bindingFilesName, stateFilesName } from "~/types/constants";
 
 export async function action({ request, params }: ActionFunctionArgs) {
     const userId = getUserId(request);
@@ -14,13 +14,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
         const body = await request.json();
         const imageid = body.id;
         try {
-            const bindingDeleteResult = await daprClient.binding.send(bindingFilesStoreName, 'delete', undefined, { key: imageid });
+            const bindingDeleteResult = await daprClient.binding.send(bindingFilesName, 'delete', undefined, { key: imageid });
             console.log('bindingDeleteResult:', bindingDeleteResult);
         } catch (error) {
             console.log('error:', error);
         }
         try {
-            const stateDeleteResult = await daprClient.state.delete(stateFilesStoreName, imageid);
+            const stateDeleteResult = await daprClient.state.delete(stateFilesName, imageid);
             console.log('stateDeleteResult:', stateDeleteResult);
         } catch (error) {
             console.log('error:', error);

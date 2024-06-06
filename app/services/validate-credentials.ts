@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { createHash } from "crypto";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 
 export async function validateCredentials(username: FormDataEntryValue | null, password: FormDataEntryValue | null): Promise<{ key: string; data: User; etag?: string | undefined; error?: string | undefined; } | null> {
@@ -16,7 +16,7 @@ export async function validateCredentials(username: FormDataEntryValue | null, p
     //         passwordHash: "b676993c5c591ce1f67b0f0efc4912a8a04782b1283254824c7fb9afc3d7dd3f",
     //     } as User
     // }]);
-    const data = await daprClient.state.query(stateUserStoreName, {
+    const data = await daprClient.state.query(stateUsersName, {
         filter: {
             AND: [{
                 EQ: { displayName: username }

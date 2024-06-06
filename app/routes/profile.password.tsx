@@ -2,7 +2,7 @@ import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { requireUserId } from "~/services/sessions";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
 import { createHash } from "crypto";
 import { useEffect, useState } from "react";

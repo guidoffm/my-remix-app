@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UploadForm from "~/components/upload-form";
 import { requireUserId } from "~/services/sessions";
 import uploadHandler from "~/services/upload-handler";
-import { stateFilesStoreName } from "~/types/constants";
+import { stateFilesName } from "~/types/constants";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
 
 export let loader: LoaderFunction = async ({ request, context, params }) => {
@@ -12,7 +12,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     const userId = await requireUserId(request);
 
     const daprClient = new DaprClient();
-    const data = await daprClient.state.query(stateFilesStoreName, {
+    const data = await daprClient.state.query(stateFilesName, {
 
         filter: {
             EQ: {

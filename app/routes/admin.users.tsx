@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import CheckboxFromBoolean from "~/components/checkbox-from-boolean";
 import DateFromNumber from "~/components/date-from-number";
 import { getSession } from "~/services/sessions";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User, UserWithKey } from "~/types/user";
 
 
@@ -14,7 +14,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     );
     // console.log('userId', session.get("userId"));
     const daprClient = new DaprClient();
-    const data = await daprClient.state.query(stateUserStoreName, {
+    const data = await daprClient.state.query(stateUsersName, {
 
         filter: {
             // EQ: {

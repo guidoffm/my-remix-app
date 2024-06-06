@@ -3,7 +3,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate, useRevalidator } from "@remix-run/react";
 import CheckboxFromBoolean from "~/components/checkbox-from-boolean";
 import DateFromNumber from "~/components/date-from-number";
-import { stateUserStoreName } from "~/types/constants";
+import { stateUsersName } from "~/types/constants";
 import { User, UserWithKey } from "~/types/user";
 
 export async function loader({ request,
@@ -18,7 +18,7 @@ export async function loader({ request,
     }
     console.log('id:', id);
     const daprClient = new DaprClient();
-    const data = await daprClient.state.get(stateUserStoreName, id);
+    const data = await daprClient.state.get(stateUsersName, id);
     return { ...data as User, key: id } as unknown as UserWithKey;
 }
 

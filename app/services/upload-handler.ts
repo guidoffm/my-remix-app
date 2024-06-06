@@ -1,7 +1,7 @@
 import { DaprClient } from "@dapr/dapr";
 import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { requireUserId } from "~/services/sessions";
-import { bindingFilesStoreName } from "~/types/constants";
+import { bindingFilesName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,7 +34,7 @@ export default async function uploadHandler({ request, }: ActionFunctionArgs) {
     };
     // console.log('key:', obj.key);
     const base64 = buffer.toString('base64');
-    const sendBindingResult = await daprClient.binding.send(bindingFilesStoreName, 'create', base64, {
+    const sendBindingResult = await daprClient.binding.send(bindingFilesName, 'create', base64, {
         "Content-Type": obj.value.type,
         key: obj.key
     });
