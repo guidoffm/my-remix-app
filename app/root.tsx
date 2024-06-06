@@ -8,14 +8,14 @@ import {
 } from "@remix-run/react";
 import stylesheet from "./styles/tailwind.css?url";
 import { Navbar } from "./components/navbar";
-import { LinksFunction, LoaderFunction, json } from "@remix-run/node";
+import { LinksFunction, LoaderFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import { getSession } from "./services/sessions";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export let loader: LoaderFunction = async ({ request, context, params }) => {
+export async function loader({ request, context, params }: LoaderFunctionArgs) {
   const session = await getSession(
     request.headers.get("Cookie")
   );
@@ -26,7 +26,7 @@ export let loader: LoaderFunction = async ({ request, context, params }) => {
     displayName: session.get("displayName"),
     isAdmin: roles && roles.includes("admin"),
   });
-};
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<typeof loader>();

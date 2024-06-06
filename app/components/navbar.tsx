@@ -1,7 +1,7 @@
 import { Link, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
-export function Navbar({ displayName, userId, isAdmin }: { displayName: string | null, userId: string | null, isAdmin: boolean }) {
+export function Navbar({ displayName, userId, isAdmin }: { displayName: string | undefined, userId: string | undefined, isAdmin: boolean | undefined}) {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const matches = useMatches();

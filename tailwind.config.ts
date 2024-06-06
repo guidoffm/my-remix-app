@@ -7,7 +7,7 @@ export default {
   },
   plugins: [],
   corePlugins: {
-    preflight: false, // this removes the default styles
+    preflight: true, // this removes the default styles
  }
  
 } satisfies Config
