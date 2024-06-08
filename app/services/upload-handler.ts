@@ -1,10 +1,9 @@
 import { DaprClient } from "@dapr/dapr";
-// import { ActionFunctionArgs, AppLoadContext, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node/dist/node";
 import { requireUserId } from "~/services/sessions";
 import { bindingFilesName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
-import { ActionFunctionArgs, AppLoadContext, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 
 export async function uploadHandler({ request, params, context }: ActionFunctionArgs) {
 
