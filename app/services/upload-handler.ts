@@ -5,41 +5,45 @@ import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 
-export async function uploadHandler({ request, params, context }: ActionFunctionArgs) {
+export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName: string, maxPartSize: number }) {
 
-    const userId = await requireUserId(request);
+    const uploadHandler = async ({ request, params, context }: ActionFunctionArgs) => {
 
-    const uploadHandler = unstable_createMemoryUploadHandler({
-        maxPartSize: 5000000,
-    });
-    const formData = await unstable_parseMultipartFormData(
-        request,
-        uploadHandler
-    );
+        const userId = await requireUserId(request);
 
-    const blob = formData.get("avatar") as File;
-    const arrayBuffer = await blob.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+        const uploadHandler = unstable_createMemoryUploadHandler({
+            maxPartSize: maxPartSize,
+        });
+        const formData = await unstable_parseMultipartFormData(
+            request,
+            uploadHandler
+        );
 
-    const daprClient = new DaprClient();
-    const obj = {
-        key: uuidv4(),
-        value: {
-            fileName: blob.name,
-            type: blob.type,
-            uploader: userId,
-            uploadTime: new Date().toISOString()
-        } as ImageState
-    };
-    // console.log('key:', obj.key);
-    const base64 = buffer.toString('base64');
-    const sendBindingResult = await daprClient.binding.send(bindingFilesName, 'create', base64, {
-        "Content-Type": obj.value.type,
-        key: obj.key
-    });
-    console.debug('sendBindingResult:', sendBindingResult);
-    const saveStateResult = await daprClient.state.save('files', [obj]);
-    console.log('saveStateResult:', saveStateResult);
+        const blob = formData.get(fileFieldName) as File;
+        const arrayBuffer = await blob.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
 
-    return json({ ok: true });
+        const daprClient = new DaprClient();
+        const obj = {
+            key: uuidv4(),
+            value: {
+                fileName: blob.name,
+                type: blob.type,
+                uploader: userId,
+                uploadTime: new Date().toISOString()
+            } as ImageState
+        };
+        // console.log('key:', obj.key);
+        const base64 = buffer.toString('base64');
+        const sendBindingResult = await daprClient.binding.send(bindingFilesName, 'create', base64, {
+            "Content-Type": obj.value.type,
+            key: obj.key
+        });
+        console.debug('sendBindingResult:', sendBindingResult);
+        const saveStateResult = await daprClient.state.save('files', [obj]);
+        console.log('saveStateResult:', saveStateResult);
+
+        return json({ ok: true });
+    }
+    return uploadHandler;
 }

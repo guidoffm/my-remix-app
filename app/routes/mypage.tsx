@@ -3,10 +3,10 @@ import { LoaderFunction } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import { UploadForm } from "~/components/upload-form";
 import { requireUserId } from "~/services/sessions";
-import { uploadHandler } from "~/services/upload-handler";
+import { getUploadHandler } from "~/services/upload-handler";
 import { stateFilesName } from "~/types/constants";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
-
+const fileFieldName = 'file';
 export let loader: LoaderFunction = async ({ request, context, params }) => {
 
     const userId = await requireUserId(request);
@@ -72,7 +72,7 @@ export default function MyPage() {
             <h1 className="h1">My Images</h1>
 
             <h2 className="h2">Upload new Image</h2>
-            <UploadForm />
+            <UploadForm fileFieldName={fileFieldName} />
 
             <h2 className="h2">Uploaded Images</h2>
             <div>
@@ -116,4 +116,7 @@ export default function MyPage() {
     );
 }
 
-export const action = uploadHandler;
+export const action = getUploadHandler({
+    fileFieldName: fileFieldName,
+    maxPartSize: 10 * 1024 * 1024
+});
