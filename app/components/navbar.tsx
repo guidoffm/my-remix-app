@@ -1,7 +1,8 @@
 import { Link, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { NavLinks } from "./nav-links";
 
-export function Navbar({ displayName, userId, isAdmin }: { displayName: string | undefined, userId: string | undefined, isAdmin: boolean | undefined}) {
+export function Navbar({ displayName, userId, isAdmin }: { displayName: string | undefined, userId: string | undefined, isAdmin: boolean | undefined }) {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const matches = useMatches();
@@ -18,69 +19,24 @@ export function Navbar({ displayName, userId, isAdmin }: { displayName: string |
 
 
     return (
-        <header className="header">
-            <button className="hidden max-sm:block text-4xl" onClick={() => setIsOpen(!isOpen)}>
-                ☰
-            </button>
-            <nav className={`bg-orange-200 w-10/12 mx-auto my-0 p-2 ${isOpen ? 'flex flex-col items-start' : 'max-sm:hidden'}`}>
-                <ul className="sm:hidden list-none place-content-around p-0 md:flex xl:flex-row">
-                    <li>
-                        <div className="flex">
-                            <div className="italic text-3xl items-center text-green-800"> {displayName ? `Hello ${displayName}` : ''}</div>
-                        </div>
-                    </li>
-                    <li>
-                        <Link to="/" className={` hover:text-gray-800 ${isActive('/') ? 'font-bold text-black' : 'text-gray-500'}`}>Home</Link>
-                    </li>
-                    {!userId &&
-                        <li>
-                            <Link to="/login" className={`hover:text-gray-800 ${isActive('/login') ? 'font-bold text-black' : 'text-gray-500'}`}>Login</Link>
-                        </li>
-                    }
-                    {userId &&
-                        <>
-                            {/* <li>
-                                <Link to="/foo" className={`hover:text-gray-800 ${isActive('/foo') ? 'active' : ''}`}>Foo</Link>
-                            </li>
-                            <li>
-                                <Link to="/foo/bar" className={`hover:text-gray-800 ${isActive('/foo/bar') ? 'active' : ''}`}>Foo Bar</Link>
-                            </li>
-                            <li>
-                                <Link to="/foo/baz" className={`hover:text-gray-800 ${isActive('/foo/baz') ? 'active' : ''}`}>Foo Baz</Link>
-                            </li> */}
-                            <li>
-                                <Link to="/mypage" className={`hover:text-gray-800 ${isActive('/mypage') ? 'font-bold text-black' : 'text-gray-500'}`}>My Page</Link>
-                            </li>
-                            <li>
-                                <Link to="/profile" className={`hover:text-gray-800 ${isActive('/profile') ? 'font-bold text-black' : 'text-gray-500'}`}>Profile</Link>
-                                {/* <ul>
-                                    <li>
-                                        <Link to="/profile/username" className={`hover:text-gray-800 ${isActive('/profile/username') ? 'font-bold text-black' : 'text-gray-500'}`}>Username</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/profile/password" className={`hover:text-gray-800 ${isActive('/profile/password') ? 'font-bold text-black' : 'text-gray-500'}`}>Password</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/profile/email" className={`hover:text-gray-800 ${isActive('/profile/email') ? 'font-bold text-black' : 'text-gray-500'}`}>Email</Link>
-                                    </li>
-                                </ul> */}
-                            </li>
-                            {isAdmin && <li>
-                                <Link to="/admin" className={`hover:text-gray-800 ${isActive('/admin') ? 'font-bold text-black' : 'text-gray-500'}`}>Admin</Link>
-                            </li>
-                            }
-                            <li>
-                                <Link to="/logout" className={`hover:text-gray-800 ${isActive('/logout') ? 'font-bold text-black' : 'text-gray-500'}`}>Logout</Link>
-                            </li>
-                        </>
-                    }
-
-                    <li>
-                        <Link to="/about" className={`hover:text-gray-800 ${isActive('/about') ? 'font-bold text-black' : 'text-gray-500'}`}>About</Link>
-                    </li>
-
+        <nav className="navbar bg-base-100">
+            <div className="navbar-start">
+                <div className="dropdown">
+                    <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-2xl">☰</div>
+                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <NavLinks userId={userId} isAdmin={isAdmin} renderDetails={false} />
+                    </ul>
+                </div>
+                <a className="btn btn-ghost text-xl">{displayName ? `Hello ${displayName}` : ''}</a>
+            </div>
+            <div className="navbar-center hidden lg:flex">
+                <ul className="menu menu-horizontal px-1">
+                    <NavLinks userId={userId} isAdmin={isAdmin} renderDetails={true} />
                 </ul>
-            </nav>
-        </header>
+            </div>
+            <div className="navbar-end">
+                <a className="btn btn-info">Button</a>
+            </div>
+        </nav>
     );
 }

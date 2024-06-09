@@ -5,10 +5,12 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
-  corePlugins: {
-    preflight: true, // this removes the default styles
- }
+  plugins: [
+    require('daisyui'),
+  ],
+//   corePlugins: {
+//     preflight: true, // this removes the default styles
+//  }
  
 } satisfies Config
 
