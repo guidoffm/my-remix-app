@@ -54,7 +54,7 @@ export default function Register() {
         }
     }, [password, password2]);
 
-    const setNewUsername1 = async (newName: string) => {
+    const updateNewUsername = async (newName: string) => {
         setDisplayName(newName);
         const res = await fetch('/api/user', {
             method: 'POST',
@@ -95,7 +95,7 @@ export default function Register() {
                             type="text"
                             name="displayName"
                             required
-                            onChange={e => setNewUsername1(e.target.value)}
+                            onChange={e => updateNewUsername(e.target.value)}
                         />
                         {displayNameError && <p className="text-red-500">{displayNameError}</p>}
                         {isUsernameTaken && <p className="text-red-500">This username is already taken.</p>}

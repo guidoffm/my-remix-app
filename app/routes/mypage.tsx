@@ -7,7 +7,8 @@ import { getUploadHandler } from "~/services/upload-handler";
 import { stateFilesName } from "~/types/constants";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
 const fileFieldName = 'file';
-export let loader: LoaderFunction = async ({ request, context, params }) => {
+
+export const loader: LoaderFunction = async ({ request, context, params }) => {
 
     const userId = await requireUserId(request);
 
