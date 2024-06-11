@@ -72,31 +72,38 @@ export default function Login() {
     const { error } = useLoaderData<typeof loader>();
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            {error ? <div className="error">{error}</div> : null}
-            <form action="/login" method="post" className="flex flex-col w-1/3 bg-orange-100 mt-6">
-                <div className="p-4">
-                    <p className="font-bold">Please sign in</p>
-                </div>
-                <label className="p-4">
-                    Username: <input
-                        type="text"
-                        name="username"
-                        autoFocus className="m-4 input input-bordered input-primary w-full max-w-xs" />
-
-                </label>
-                <label className="p-4">
-                    Password:
-                    <input
-                        type="password"
-                        name="password"
-                        className="m-4 input input-bordered input-primary w-full max-w-xs" />
-                </label>
-                <div className="p-4">
-                    <button type="submit" className="btn btn-primary w-full">Sign in</button>
-                </div>
-
-            </form>
+        <div className="flex justify-center items-center h-screen bg-gray-100">
+    <form action="/login" method="post" className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-8 text-center">Please Sign In</h2>
+        <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                Username
+            </label>
+            <input
+                type="text"
+                name="username"
+                id="username"
+                autoFocus
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
         </div>
+        <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                Password
+            </label>
+            <input
+                type="password"
+                name="password"
+                id="password"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            />
+        </div>
+        <div className="flex items-center justify-between">
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Sign in
+            </button>
+        </div>
+    </form>
+</div>
     );
 }
