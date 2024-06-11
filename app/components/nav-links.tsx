@@ -1,14 +1,5 @@
 import { Link } from "@remix-run/react";
-
-function ProfileLinks() {
-    return (
-        <ul className="p-2">
-            <li><Link to={'/profile/username'}>Username</Link></li>
-            <li><Link to={'/profile/password'}>Password</Link></li>
-            <li><Link to={'/profile/email'}>Email</Link></li>
-        </ul>
-    );
-}
+import { ProfileLinks } from "./profile-links";
 
 export function NavLinks({ isAdmin, userId, renderDetails }: { isAdmin: boolean | undefined, userId: string | undefined, renderDetails: boolean }) {
     return (

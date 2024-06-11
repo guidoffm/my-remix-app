@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import stylesheet from "./styles/tailwind.css?url";
 import { Navbar } from "./components/navbar";
-import { LinksFunction, LoaderFunction, LoaderFunctionArgs, json } from "@remix-run/node";
+import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
 import { getSession } from "./services/sessions";
 
 export const links: LinksFunction = () => [
@@ -39,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="p-4">
         <div>
           <Navbar userId={data.userId} displayName={data.displayName} isAdmin={data.isAdmin} />
         </div>

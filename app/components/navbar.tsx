@@ -1,25 +1,8 @@
-import { Link, useLocation, useMatches } from "@remix-run/react";
-import { useEffect, useState } from "react";
 import { NavLinks } from "./nav-links";
 
 export function Navbar({ displayName, userId, isAdmin }: { displayName: string | undefined, userId: string | undefined, isAdmin: boolean | undefined }) {
-    const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation();
-    const matches = useMatches();
-    const [activePath, setActivePath] = useState("");
-
-    useEffect(() => {
-        const activeMatch = matches.find(match => match.pathname === location.pathname);
-        setActivePath(activeMatch ? activeMatch.pathname : "");
-    }, [matches, location]);
-
-    const isActive = (path: string) => {
-        return path === activePath;
-    };
-
-
     return (
-        <nav className="navbar bg-base-100">
+        <nav className="navbar bg-base-200">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-2xl">☰</div>
