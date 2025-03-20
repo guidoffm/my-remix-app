@@ -29,11 +29,20 @@ npm start
 
 Now you'll need to pick a host to deploy it to.
 
-### DIY
+### Dapr config
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+At the moment the uses 2 bindings and 2 states.
 
-Make sure to deploy the output of `npm run build`
+The bindings are used for 
 
-- `build/server`
-- `build/client`
+- sending SMTP email
+- storing binary data for user uploaded files
+
+The states are used for
+
+- user database
+- storing meta data for user uploaded files
+
+For the states we need a state provider that supports the query interface. Currently PostgreSQL v1, 
+MongoDB, Redis and CosmosDB are supported.
+
