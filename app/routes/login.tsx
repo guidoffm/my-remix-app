@@ -2,7 +2,7 @@ import type {
     ActionFunctionArgs,
     LoaderFunctionArgs,
 } from "@remix-run/node"; // or cloudflare/deno
-import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
+import { redirect } from "@remix-run/node"; // or cloudflare/deno
 import { useLoaderData } from "@remix-run/react";
 
 import { getSession, commitSession } from "../services/sessions";
@@ -22,7 +22,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
     const data = { error: session.get("error") };
 
-    return json(data, {
+    return Response.json(data, {
         headers: {
             "Set-Cookie": await commitSession(session),
         },

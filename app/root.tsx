@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import stylesheet from "./styles/tailwind.css?url";
 import { Navbar } from "./components/navbar";
-import { LinksFunction, LoaderFunctionArgs, json } from "@remix-run/node";
+import { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { getSession } from "./services/sessions";
 
 export const links: LinksFunction = () => [
@@ -21,7 +21,7 @@ export async function loader({ request, context, params }: LoaderFunctionArgs) {
   );
   // console.log('userId', session.get("userId"));
   const roles = session.get("roles");
-  return json({
+  return Response.json({
     userId: session.get("userId"),
     displayName: session.get("displayName"),
     isAdmin: roles && roles.includes("admin"),
