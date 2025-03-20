@@ -7,18 +7,28 @@ import { createHash } from "crypto";
 
 export async function registrationHandler({ request, }: ActionFunctionArgs) {
     try {
+        // Create an id for the new user
         const userId = uuidv4();
+
         const formData = await request.formData();
         // console.log('formData:', formData);
+
+        // get the password from the form
         const password = formData.get("password");
         // const displayName = formData.get("displayName");
         // console.log('password:', password);
+
+        // compute the hash of the password
         const passwordHash = createHash('sha256').update(password as string).digest('hex');
+        
         const daprClient = new DaprClient();
-        // const stateGetResult = await daprClient.state.get(stateUserStoreName, userId) as KeyValueType;
-        // console.log('stateGetResult:', stateGetResult);
+
+        // create a new email verification code
         const emailVerificationCode = uuidv4();
+
         const pendingEmail = formData.get("email") as string;
+
+        // save the new user to the user state store
         const stateSaveResult = await daprClient.state.save(stateUsersName, [{
             key: userId,
             value: {
@@ -32,19 +42,22 @@ export async function registrationHandler({ request, }: ActionFunctionArgs) {
                 roles: []
             } as User
         }]);
-        // stateGetResult.passwordHash = passwordHash;
-        // const stateSaveResult = await daprClient.state.save(stateUserStoreName, [{ key: userId, value: stateGetResult as User }]);
+        
         console.log('stateSaveResult:', stateSaveResult);
+
         // get the root url of the page
         const rootUrl = request.url.split('/register')[0];
+
+        // send the email with verification code to the user
         daprClient.binding.send(bindingSmtpName, 'create',
             `Please click on the following link to verify your email: ${rootUrl}/verify/${emailVerificationCode}`, {
             emailTo: pendingEmail,
             subject: "Verify your email address",
         });
-        // Login succeeded, send them to the home page.
+
+        // Registration succeeded, send them to the home page.
         return redirect("/usercreated");
-        // return json({ ok: true });
+  
     } catch (error) {
         console.error('error:', error);
         return redirect("/usercreationfailed");
