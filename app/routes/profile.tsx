@@ -1,11 +1,11 @@
 import { LoaderFunction } from "@remix-run/node";
-import { Outlet, json } from "@remix-run/react";
+import { Outlet } from "@remix-run/react";
 import { requireUserId } from "~/services/sessions";
 
 export const loader: LoaderFunction = async ({ request }) => {
     await requireUserId(request);
   
-    return json({});
+    return Response.json({});
   }
   
 export default function Profile() {

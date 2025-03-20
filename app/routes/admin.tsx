@@ -1,4 +1,4 @@
-import { LoaderFunction, json } from "@remix-run/node";
+import { LoaderFunction } from "@remix-run/node";
 import { Link, Outlet } from "@remix-run/react";
 import { requireAdmin, requireUserId } from "~/services/sessions";
 
@@ -6,7 +6,7 @@ export let loader: LoaderFunction = async ({ request }) => {
 
     await requireUserId(request);
     await requireAdmin(request);
-    return json({});
+    return Response.json({});
 }
 export default function Admin() {
     return (

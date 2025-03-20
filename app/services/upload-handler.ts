@@ -3,7 +3,7 @@ import { requireUserId } from "~/services/sessions";
 import { bindingFilesName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
-import { ActionFunctionArgs, json, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import { ActionFunctionArgs, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 
 export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName: string, maxPartSize: number }) {
 
@@ -43,7 +43,7 @@ export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName
         const saveStateResult = await daprClient.state.save('files', [obj]);
         console.log('saveStateResult:', saveStateResult);
 
-        return json({ ok: true });
+        return Response.json({ ok: true });
     }
     return uploadHandler;
 }

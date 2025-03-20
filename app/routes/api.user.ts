@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { KeyValueType } from "@dapr/dapr/types/KeyValue.type";
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs } from "@remix-run/node";
 import { getUserId } from "~/services/sessions";
 import { bindingFilesName, stateFilesName, stateUsersName } from "~/types/constants";
 import { User } from "~/types/user";
@@ -45,7 +45,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         // stateGetResult.passwordHash = passwordHash;
         const stateSaveResult = await daprClient.state.save(stateUsersName, [{ key: userId, value: stateGetResult as User }]);
         // console.log('stateSaveResult:', stateSaveResult);
-        return json({}, { status: 204 });
+        return Response.json({}, { status: 204 });
     }
 
     if (request.method === 'DELETE') {
@@ -99,7 +99,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         } catch (error) {
             console.log('error:', error);
         }
-        return json({}, { status: 204 });
+        return Response.json({}, { status: 204 });
     }
 
     if (request.method === 'POST') {
@@ -118,7 +118,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
             },
             sort: []
         });
-        return json({ exists: data.results.length > 0 });
+        return Response.json({ exists: data.results.length > 0 });
     }
-    return json({}, { status: 400 });
+    return Response.json({}, { status: 400 });
 }
