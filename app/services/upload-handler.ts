@@ -1,6 +1,6 @@
 import { DaprClient } from "@dapr/dapr";
 import { requireUserId } from "~/services/sessions";
-import { bindingFilesName } from "~/types/constants";
+import { bindingFilesName, stateFilesName } from "~/types/constants";
 import { ImageState } from "~/types/image-state";
 import { v4 as uuidv4 } from 'uuid';
 import { ActionFunctionArgs, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
@@ -14,6 +14,7 @@ export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName
         const uploadHandler = unstable_createMemoryUploadHandler({
             maxPartSize: maxPartSize,
         });
+        
         const formData = await unstable_parseMultipartFormData(
             request,
             uploadHandler
@@ -24,7 +25,8 @@ export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName
         const buffer = Buffer.from(arrayBuffer);
 
         const daprClient = new DaprClient();
-        const obj = {
+        
+        const metaData = {
             key: uuidv4(),
             value: {
                 fileName: blob.name,
@@ -33,14 +35,19 @@ export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName
                 uploadTime: new Date().toISOString()
             } as ImageState
         };
-        // console.log('key:', obj.key);
+        
+        // convert the buffer to base64
         const base64 = buffer.toString('base64');
+
+        // send the binding to the binding component (Minio/S3)
         const sendBindingResult = await daprClient.binding.send(bindingFilesName, 'create', base64, {
-            "Content-Type": obj.value.type,
-            key: obj.key
+            "Content-Type": metaData.value.type,
+            key: metaData.key
         });
         console.debug('sendBindingResult:', sendBindingResult);
-        const saveStateResult = await daprClient.state.save('files', [obj]);
+
+        // save the metadata to the state store
+        const saveStateResult = await daprClient.state.save(stateFilesName, [metaData]);
         console.log('saveStateResult:', saveStateResult);
 
         return Response.json({ ok: true });
