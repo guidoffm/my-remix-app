@@ -19,7 +19,7 @@ export default function Register() {
             passwordMatchError !== '' || email === '' || displayName === '' ||
             displayNameError !== '' || emailError !== '' || isUsernameTaken;
         setSubmitDisabled(res);
-    }, [password, password2]);
+    }, [password, password2, email, displayName, emailError, displayNameError, passwordError, passwordMatchError, isUsernameTaken]);
 
     useEffect(() => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
