@@ -6,7 +6,7 @@ export let loader: LoaderFunction = async ({ request }) => {
 
     await requireUserId(request);
     await requireAdmin(request);
-    return Response.json({});
+    return {};
 }
 export default function Admin() {
     return (

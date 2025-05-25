@@ -50,7 +50,7 @@ export function getUploadHandler({ fileFieldName, maxPartSize }: { fileFieldName
         const saveStateResult = await daprClient.state.save(stateFilesName, [metaData]);
         console.log('saveStateResult:', saveStateResult);
 
-        return Response.json({ ok: true });
+        return { ok: true };
     }
     return uploadHandler;
 }

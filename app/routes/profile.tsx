@@ -5,7 +5,7 @@ import { requireUserId } from "~/services/sessions";
 export const loader: LoaderFunction = async ({ request }) => {
     await requireUserId(request);
   
-    return Response.json({});
+    return {};
   }
   
 export default function Profile() {

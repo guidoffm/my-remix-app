@@ -8,25 +8,15 @@ import { useLoaderData } from "@remix-run/react";
 import { getSession, commitSession } from "../services/sessions";
 import { validateCredentials } from "../services/validate-credentials";
 
-export async function loader({ request, }: LoaderFunctionArgs) {
-    const session = await getSession(
-        request.headers.get("Cookie")
-    );
-    // console.log('session', session);
-    // console.log('userId', session.get("userId"));
-
-    if (session.has("userId") && session.get("userId") !== null) {
-        // Redirect to the home page if they are already signed in.
-        return redirect("/");
-    }
-
-    const data = { error: session.get("error") };
-
-    return Response.json(data, {
-        headers: {
-            "Set-Cookie": await commitSession(session),
-        },
-    });
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (session.has("userId") && session.get("userId") !== null) {
+    return redirect("/");
+  }
+  return {
+    error: session.get("error"),
+    setCookie: await commitSession(session),
+  };
 }
 
 export async function action({ request, }: ActionFunctionArgs) {

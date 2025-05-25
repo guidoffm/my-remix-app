@@ -15,20 +15,17 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export async function loader({ request, context, params }: LoaderFunctionArgs) {
-  const session = await getSession(
-    request.headers.get("Cookie")
-  );
-  // console.log('userId', session.get("userId"));
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
   const roles = session.get("roles");
-  return Response.json({
+  return {
     userId: session.get("userId"),
     displayName: session.get("displayName"),
     isAdmin: roles && roles.includes("admin"),
-  });
+  };
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   const data = useLoaderData<typeof loader>();
 
   return (
@@ -39,18 +36,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="p-4">
-        <div>
-          <Navbar userId={data.userId} displayName={data.displayName} isAdmin={data.isAdmin} />
-        </div>
-        {children}
+      <body className="p-4 bg-[url('/background2.jpg')] bg-cover bg-center min-h-screen">
+        <Navbar userId={data.userId} displayName={data.displayName} isAdmin={data.isAdmin} />
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }
