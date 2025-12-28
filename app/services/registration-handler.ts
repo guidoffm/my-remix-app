@@ -28,6 +28,8 @@ export async function registrationHandler({ request, }: ActionFunctionArgs) {
 
         const pendingEmail = formData.get("email") as string;
 
+        console.log('Create user record for email: ', pendingEmail);
+
         // save the new user to the user state store
         const stateSaveResult = await daprClient.state.save(stateUsersName, [{
             key: userId,
@@ -48,9 +50,13 @@ export async function registrationHandler({ request, }: ActionFunctionArgs) {
         // get the root url of the page
         const rootUrl = request.url.split('/register')[0];
 
+        const emailBody = `Please click on the following link to verify your email: ${rootUrl}/verify/${emailVerificationCode}`;
+
+        console.log('emailBody:', emailBody);
+        console.log('pendingEmail:', pendingEmail);
         // send the email with verification code to the user
         daprClient.binding.send(bindingSmtpName, 'create',
-            `Please click on the following link to verify your email: ${rootUrl}/verify/${emailVerificationCode}`, {
+            emailBody, {
             emailTo: pendingEmail,
             subject: "Verify your email address",
         });
