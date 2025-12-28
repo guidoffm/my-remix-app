@@ -1,24 +1,46 @@
+# 1. Basis-Image
 FROM node:20-alpine AS base
 
-# Install dependencies only when needed
+# 2. Abhängigkeiten installieren
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+# libc6-compat wird oft für native Abhängigkeiten in Alpine benötigt
 RUN apk add --no-cache libc6-compat
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
-
-FROM deps AS builder
 WORKDIR /app
-COPY --chown=nextjs:nodejs package*.json ./
+
+COPY package*.json ./
 RUN npm ci
-COPY --chown=nextjs:nodejs . .
+
+# 3. Build-Prozess
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+# Kopiert den gesamten Quellcode (inkl. tailwind.config.js für korrektes CSS-Purging)
+COPY . .
 RUN npm run build
 
-FROM deps AS runner
+# 4. Produktions-Runner
+FROM base AS runner
 WORKDIR /app
+
+# Wichtig für Performance und Sicherheit
+ENV NODE_ENV=production
+
+# Sicherheits-User anlegen (nicht als root ausführen)
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 remixjs
+USER remixjs
+
+# Nur die notwendigen Dateien aus dem Builder kopieren
 COPY --from=builder /app/package*.json ./
-RUN npm ci --omit=dev
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/build ./build
+
+# --- ENTSCHEIDEND FÜR DESIGN & ICONS ---
+# Kopiert statische Assets wie CSS, Favicons und Apple-Touch-Icons
+COPY --from=builder /app/public ./public 
+# ---------------------------------------
+
 EXPOSE 3000
+
+# Startet den Remix-Server
 CMD ["npm", "start"]
