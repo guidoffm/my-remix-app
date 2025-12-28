@@ -2,36 +2,37 @@ FROM node:20-alpine AS base
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# --- SCHRITT 1: Dependencies ---
+# 1. Abhängigkeiten
 FROM base AS deps
 COPY package*.json ./
 RUN npm ci
 
-# --- SCHRITT 2: Builder (Hier wird das CSS generiert) ---
+# 2. Builder (Vite Build)
 FROM base AS builder
 WORKDIR /app
-# Hol die installierten Module
 COPY --from=deps /app/node_modules ./node_modules
-# Kopiere ALLES (Configs, App-Ordner, etc.)
 COPY . .
-# Führe den Build aus - Tailwind scannt jetzt den kopierten Code
+# Vite Build erzeugt build/client und build/server
 RUN npm run build
 
-# --- SCHRITT 3: Runner ---
+# 3. Runner
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Erst jetzt legen wir den eingeschränkten User an
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 remixjs
 USER remixjs
 
-# Kopiere nur das Nötigste für den Betrieb
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
+
+# WICHTIG: Den gesamten build-Ordner inkl. Unterordner client/server kopieren
 COPY --from=builder /app/build ./build
+# WICHTIG: Den public-Ordner für Icons/Bilder kopieren
 COPY --from=builder /app/public ./public 
 
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# Start-Befehl für Vite-Builds (Pfad zum Server-Index)
+CMD ["npx", "remix-serve", "./build/server/index.js"]
