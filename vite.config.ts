@@ -1,10 +1,16 @@
 import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
 import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite"; // <--- NEU
 import tsconfigPaths from "vite-tsconfig-paths";
 
-installGlobals();
-
 export default defineConfig({
-  plugins: [remix(), tsconfigPaths()],
+  plugins: [
+    tailwindcss(), // <--- MUSS VOR REMIX STEHEN
+    remix({
+      future: {
+        v3_singleFetch: true,
+      },
+    }),
+    tsconfigPaths(),
+  ],
 });
